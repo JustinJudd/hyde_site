@@ -1,0 +1,12 @@
+
+  <div id="sidebar" role="complementary">
+    <ul class="widgets">
+			<!-- Blog Feed -->
+			{% from "sidebar_macros.j2" import get_blog_posts with context %}
+			{{ get_blog_posts(3) }}
+			<!-- Image Feed -->
+			{% from "sidebar_macros.j2" import get_albums with context %}
+			{{ get_albums(3) }}
+		</ul>
+  </div>
+

@@ -1,0 +1,23 @@
+---
+extends: base_with_sidebar.j2
+title: HomePage
+description: Home page
+---
+
+
+{% block main %}
+{% from "macros.j2" import render_excerpt with context %}
+<section class="blog_excerpt">
+{% set latest = site.content.node_from_relative_path('blog/').walk_resources_sorted_by_time()|first %}
+
+{% if latest -%}
+{{ render_excerpt(latest, 'post') }}
+
+<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+
+{%- endif %}
+
+{% endblock main %}
+
+
+

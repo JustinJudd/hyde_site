@@ -1,0 +1,8 @@
+---
+extends: false
+listable: false
+
+---
+
+{% set source = site.content.node_from_relative_path('photos') %}
+{% extends "tagged_index.j2" %}

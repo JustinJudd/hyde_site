@@ -1,0 +1,16 @@
+convert tesla_model_x_full.jpg -resize 640x -strip -quality 70 -interlace line tesla_model_x_web.jpg
+
+convert tesla_model_x_full.jpg -resize 640x -strip -quality 70 -interlace line tesla_model_x_web.jpg; convert ../copyright.png -fill Gray91 -colorize 80 miff:- | composite -compose bumpmap -gravity center - tesla_model_x_web.jpg tesla_model_x_web.jpg
+
+
+
+f="tesla_model_x.jpg";t="tesla_model_x_web.jpg"; convert $f -resize 640x -strip -quality 70 -interlace line $t; convert ../copyright.png -fill Gray91 -colorize 80 miff:- | composite -compose bumpmap -gravity center - $t $t
+
+
+convert tesla_model_x_full.jpg -resize 1920x  -strip tesla_model_x_high.jpg
+
+
+f="tesla_model_x_full.jpg";h="tesla_model_x_high.jpg";w="tesla_model_x_web.jpg";convert $f -resize 1920x -strip $h; convert $f -resize 640x -strip -quality 70 -interlace line $w; convert ../copyright.png -fill Gray91 -colorize 80 miff:- | composite -compose bumpmap -gravity center - $w $w
+
+
+base="night_scape";f=$base"_full.jpg";h=$base"_high.jpg";w=$base"_web.jpg";convert $f -resize 1920x -strip $h; convert $f -resize 640x -strip -quality 70 -interlace line $w; convert copyright.png -fill Gray91 -colorize 80 miff:- | composite -compose bumpmap -gravity center - $w $w

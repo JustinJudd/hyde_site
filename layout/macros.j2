@@ -1,0 +1,145 @@
+{% macro render_excerpt(res, class=None) %}
+{% refer to res.url as post %}
+<article {{'class='~class if class }}>
+<h2 class="title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+<div class="post-info">
+ {% if res.meta.tags %}
+	{% set tag = res.meta.tags[0] %}
+	{% set p = res.url.split('/')[0] %}
+  Posted in <a href="{{ content_url(p~'/tags/'~tag~'.html') }}">{{ tag }}</a> 
+  {% endif %}
+</div>
+<div class="image_block">
+<a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
+</div>
+{{ post.excerpt|markdown|typogrify }}
+</article>
+{% endmacro %}
+
+
+{% macro render_post(res, n=30, class=None) %}
+{% refer to res.url as post %}
+<article {% if class %}class="{{ class }}"{% endif %}>
+<h2 class="title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+<div class="post-info">
+  {% if res.meta.tags %}
+	{% set tag = res.meta.tags[0] %}
+  Posted in <a href="{{ content_url('blog/tags/'~tag~'.html') }}">{{ tag }}</a> 
+  {% endif %}
+</div>
+<a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
+{% set post_text =  post.post|markdown|typogrify %}
+{% if post.image %}
+ {% set split_place = 1 %}
+{% else %}
+ {% set split_place = 0 %}
+{% endif %}
+
+{{  (" ").join(post_text.split("/>")[split_place].split(" ")[:n] ) }}... <span class="excerpt_more"><a href="{{ content_url(res.url) }}">more &raquo;</a></span>
+</article>
+{% endmacro %}
+
+{% macro render_photo_excerpt(res, class=None) %}
+{% refer to res.url as post %}
+<article {{'class='~class if class }}>
+<h4 class="title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+{% set rel_image_loc = site.config.media_url + res.node.url + '/' +  res.meta.image + "_web.jpg" %}
+{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
+<a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
+</article>
+{% endmacro %}
+
+
+{% macro render_album_excerpt(node, class=None) %}
+
+{% set res =  node.get_resource('index.html') %}
+{% if node.walk_resources_sorted_by_time() %}
+{% set first = node.walk_resources_sorted_by_time()[0] %}
+{% refer to first.url as post  %}
+
+<article {{'class='~class if class }}>
+<h2 class="title"><a href="{{ content_url(node.url) }}">{{ res.meta.title }}</a></h2>
+<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+<div class="post-info">
+{% if res.meta.tags %}
+	{% set tag = res.meta.tags[0] %}
+  Posted in <a href="{{ content_url('photos/tags/'~tag~'.html') }}">{{ tag }}</a> 
+  {% endif %}
+</div>
+{% set rel_image_loc = site.config.media_url + first.node.url + '/' +  first.meta.image + "_web.jpg" %}
+{% set image_md = '![' + first.meta.title  + '](' + rel_image_loc + ')' %}
+<a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
+{{ res.meta.description }}
+</article>
+{% endif %}
+{% endmacro %}
+
+{% macro get_albums(n) %}
+{% for n in node.walk() %}	
+	{% if n != node %}
+		{% if  n.parent == node %}
+
+			<li>
+				{{ render_album_excerpt(n) }}
+
+			</li>
+		{% endif %}
+	{% endif %}
+{% endfor %}
+{% endmacro %}
+
+
+{% macro render_nav(menu, cls=None) -%}
+{% if menu -%}
+  <p class="nav-extra">
+     <a href="/blog/atom.xml" class="nav-extra" title="View RSS Feed"></a><a href="http://twitter.com/Justin_Judd" target="_blank" class="nav-extra" style="background-position:-64px top" title="Follow me on Twitter"></a><a href="http://www.facebook.com/JustinJudd" target="_blank" class="nav-extra" style="background-position:-192px top" title="Find me on Facebook"></a>	<a href="https://plus.google.com/114337450100633107219/"  rel="me" target="_blank" class="nav-extra" style="background-position:-128px top" title="Find me on Google"></a>
+  </p>
+<nav {{'class='~cls if cls }}>
+    <ul>
+        {% for item in menu -%}
+        {% set active = False -%}
+        {% if item.type == 'page' -%}
+            {% set active = (resource.url ==
+                site.content.resource_from_relative_path(item.url).url) -%}
+        {% else -%}
+            {% set active = (site.content.node_from_relative_path(item.url).url in node.url) -%}
+        {%- endif %}
+        {#  {% set classes = ['button', 'white'] -%} #}
+        {% set classes = [] -%}
+        {% do classes.append('active') if active -%}
+        {% do classes.append(item.css_class) if item.css_class -%}
+        <li>
+            <a title="{{ item.description }}"
+                class="{{ classes|join(' ') }}"
+                href="{{ content_url(item.url) }}">
+                {{ item.name }}
+            </a>
+        </li>
+        {%- endfor %}
+    </ul>
+</nav>
+{%- endif %}
+{%- endmacro %}
+
+{% macro render_sidebar(resource) -%}
+	{% if resource.node.url == site.content.url %}
+		{% include "main_sidebar.j2" %}
+	{% elif '/blog' in resource.node.url %}
+		{% include "blog_sidebar.j2" %}
+	{% elif '/photos' in resource.node.url %}
+		{% if '/photos' == resource.node.url %}
+			{% include "album_sidebar.j2" %}
+		{% elif 'tag' in resource.url %}
+			{% include "photo_tag_sidebar.j2" %}
+		{% elif 'index' in resource.url %}
+			{% include "album_sidebar.j2" %}
+		{% else %}
+			{% include "photo_sidebar.j2" %}
+		{% endif %}
+	{% elif '/portfolio' in resource.node.url %}
+		{% include "portfolio_sidebar.j2" %}
+	{% endif %}
+{% endmacro %}
+

@@ -1,0 +1,6 @@
+===
+title: Justin Judd Photo Feed
+extends: photo_atom.j2
+listable: false
+excerpts_only : true
+===

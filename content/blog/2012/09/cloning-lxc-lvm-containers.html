@@ -1,0 +1,93 @@
+---
+title: Cloning LXC LVM Containers
+description: >
+    Outlining how I have used LVMs with LXCs
+created: !!timestamp '2012-09-18 15:19:00'
+tags:
+    - Linux
+---
+
+{% mark excerpt -%}
+After a hiatus from blogging, I am back at it. I recently found out
+about Linux Containers(LXC)[[LXC - Sourceforge][sourceforge]]. Linux
+Containers are very similar to FreeBSD jails or Solaris Zones. They
+allow virtualization using a shared kernel, which means that there is
+very little overhead compared to other virtualization options.
+
+[sourceforge]: http://lxc.sourceforge.net/
+{%- endmark %}
+
+With LXC, you can use Linux's Logical Volume
+Management(LVM)[[LVM HOWTO][lvm_howto]]. LVM allows you to
+do things like change partition size as neeed, make snapshots of a
+partition, do hot-swapping with multiple drives, or software RAID
+capabilities. In particular for this article, I am going to focus on the
+LVM Snapshot feature.
+
+LVM Snapshots use a technique called copy-onwrite, so when you create a
+snapshot of a logical volume, LVM doesn't copy all the data from the
+logical volume into the snapshot, but rather LVM creates a mapping of
+deltas, or changes that have happened to the inital logical volume, and
+then in essence unplays those in the snapshot. Everytime you make a
+change to the original logical volume, it gets written to the original
+volume, and then to each snapshot. Original LVM Snapshots were read
+only, and were initially created so that you could back up your main
+logical volume from the snapshot, knowing that the snapshot wouldn't
+have changes happening to it while you were making a backup of it. With
+the current version of LVM, Snapshots are now Read-Write This means that
+you can treat LVM snapshots as a full working copy of the original
+logical volume, but you will still have the performance hit of writing
+to the snapshot and the original logical volume everytime a change in
+the original volume is made.
+
+Using LVM as the container for your LXC instances allows you to do
+immediate cloning, as it creates an LVM snapshot. This is great for
+instances where your original logical volume won't change much, but if
+both the snapshot and original volume are in active use, you will get
+hit with writing to the Snapshot whenever either change. Unfortunately
+with the current implementation of LXC clonging when using an LVM base
+is that it only supports snapshotting of the original volume, and not a
+true clone. You can get this same outcome with just a few extra steps
+though(Warning, the following commands assume knowledge of LXC and LVM
+commands).
+
+    lxc-start -n brushfireapps_dev -d
+    #Create a snapshot clone of the LXC lxc-clone -s -L 3G -o original -n original_copy
+
+    #These commands are to set up the static IP address I want used in the LXC
+
+    vim /var/lib/lxc/original_copy/config 
+
+    mkdir /mnt/lvm_fs
+
+    mount /dev/lxc/original_copy /mnt/lvm_fs/
+
+    vim /mnt/lvm_fs/etc/network/interfaces 
+
+    umount /mnt/lvm_fs/
+
+    #Set up LXC to start on system boot
+
+    ln -s /var/lib/lxc/original_copy/config /etc/lxc/auto/original_copy
+
+    #Create a full Logical Volume that you will copy the snapshot data to.
+
+    lvcreate --size 3GB --name original_copy_tmp lxc # 3GB was the size of my initial lv
+
+    dd if=/dev/lxc/original_copy of=/dev/lxc/original_copy_tmp # can also do this over the network "dd if=/dev/lxc/original_copy | pv -ptrb | ssh user@hostname of=/dev/lxc/original_copy_tmp "(Thanks to https://github.com/mpalmer/lvmsync )
+
+    #Switch the names and clean up the snapshot
+
+    lvrename /dev/lxc/original_copy /dev/lxc/original_copy_old
+
+    lvrename /dev/lxc/original_copy_tmp /dev/lxc/original_copy
+
+    #Start your LXC using the full new Logical Volume
+
+    lxc-start -n original_copy -d
+
+Let ne know if there are any cool tips or tricks you know with LXC or
+LVM.
+
+
+[lvm_howto]: http://tldp.org/HOWTO/LVM-HOWTO/

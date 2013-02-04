@@ -1,0 +1,10 @@
+---
+extends: false
+listable: false
+
+---
+
+{% set tag = site.tagger.tags['VHDL'] %}
+{% set source = site.content.node_from_relative_path('photos') %}
+{% set walker = source.walk_resources_tagged_with_VHDL %}
+{% extends "tagged_photos.j2" %}

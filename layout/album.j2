@@ -1,0 +1,35 @@
+{% extends "base_with_sidebar.j2" %}
+{% from "macros.j2" import render_photo_excerpt with context  %}
+{% block main %}
+
+<nav class="post_nav">
+
+{% set parent_node = node.parent %}
+
+<a class="prev disabled"></a>
+
+<a class="backlink" href="{{ content_url(parent_node.url) }}">{{ parent_node.get_resource('index.html').meta.title }} </a>
+
+<a class="next disabled"></a>
+
+<br>
+</nav>
+
+
+{% from "macros.j2" import get_albums with context  %}
+
+<ul class="album_listing clear">
+{{ get_albums(node) }}
+</ul>
+
+
+<ul class="photo_listing clear">
+{% for res in resource.node.walk_resources_sorted_by_time() %}
+{% if res.node == node %}
+<li>
+    {{ render_photo_excerpt(res) }}
+</li>
+{% endif %}
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,134 @@
+---
+title: Development Client
+created: !!timestamp "2011-11-13 12:23:00"
+tags:
+    - Android
+    - Programming
+---
+
+{% mark image -%}
+
+[![Screenshot of Eclipse][screenshot_java_eclipse]][screenshot_java_eclipse]
+
+[screenshot_java_eclipse]: /media/blog/eclipse/Screenshot-Java-Eclipse.png
+
+{%- endmark %}
+
+{% mark excerpt -%}
+Previously I outlined my [development server setup][], and now I thought
+that I would outline the setup for my client development environment. I
+use [Eclipse][] for my primary IDE because of all the functionality you
+can add through different plugins and extensions. You can set it up so
+that you can do almost everything in your development process within
+Eclipse, and it is also platform independent, so you can use it on
+Linux, MacOSX or Windows. You can check out a lot of the available
+extensions with the new [Eclipse Marketplace][].
+
+
+
+[development server setup]: http://192.168.1.21/blog/justin.php/dev_server:
+[Eclipse]: http://www.eclipse.org/
+[Eclipse Marketplace]: http://marketplace.eclipse.org/
+
+{%- endmark %}
+
+[![Screenshot of Eclipse loading][screenshot_eclipse]][screenshot_eclipse]
+
+
+One of the most important plugins that I use is [subclipse][], which
+allows you to pull in projects from subversion and manage subversion
+repositories. A lot of projects use SVN as their code repo base, so this
+plugin allows an easy way to grab, modify and commit the code. Another
+svn plugin for Eclipse(which I don't have as much experience with) is
+[subversive][], which supplies similar functionality.
+
+[![Subclipse Synchronization View][]][Subclipse Synchronization View]
+
+
+The next Eclipse add-on I use is so that I can view, create and manage
+Trac tickets from within Eclipse. This plugin is the [Mylyn Trac
+Connector][]. You can create custom queries so that you can manage
+different lists of tasks. The other great thing about this plugin is
+that you can enable automatic synchronization so that you can have
+offline access to project tickets. You can also set it up to use the
+XML-RPC connector which we set up [earlier][].
+
+[![Trac Ticket Queries][]][Trac Ticket Queries]
+
+
+[![Trac Ticket Modification][]][Trac Ticket Modification]
+
+
+One of the most compelling reasons to use Eclipse as your IDE
+environment is the support of [Google][] for Eclipse. If you want to
+develop applications for [Android][], or develop good cloud web-apps,
+Google has released great tools that integrate into Eclipse. For Android
+development, they have the [Android Development Tools][] that allows you
+to set up what version of Android you want to develop for, helps
+automatically manage and build your projects and libraries, run and
+debug in an android emulator or connected devices, and you can also
+export your Android application installer(apks).
+
+[![Screenshot of Eclipse for developing Android][screenshot_eclipse_android]][screenshot_eclipse_android]
+
+If you develop web sites, then [Google Plugin for Eclipse][] will help
+you take advantage of Google's APIs and Google's Web Toolkit.
+
+[![Screenshot of Google Plugin in Eclipse][screenshot_eclipse_google]][screenshot_eclipse_google]
+
+
+Eclipse can support a large number of languages. Depending on which base
+installation of Eclipse you have, it may come with support for any of
+Java, C, and C++. Another language that I have used extensively is
+Python. [PyDev][] is a great addition to Eclipse to provide more
+functionality for python projects, and has some cool features like code
+completion and analysis.
+
+[![Screenshot of Python development within Eclipse][screenshot_eclipse_python]][screenshot_eclipse_python]
+
+
+Speaking of code analysis, another plugin I use is the [Checkstyle
+plugin][]. [Checkstyle][] is a Java code analyzing tool. You can set
+filters and style guides, and Checkstyle will make sure that those
+guides and rules are being followed.
+
+[![Screenshot of Checkstyle plugin in Eclipse][screenshot_eclipse_checkstyle]][screenshot_eclipse_checkstyle]
+
+
+For those of you that like to tweak the visuals, you might enjoy
+[Eclipse Color Theme][], that lets you choose between a number of
+different editor color schemes and themes. Through [their site][] you
+can also get additional themes and even create your own.
+
+[![Screenshot of Theme selector plugin in Eclipse][screenshot_eclipse_themes]][screenshot_eclipse_themes]
+
+
+Eclipse is a wonderful development environment that by itself provides a
+lot of functionality, but becomes an indispensable tool when coupled
+with the large number of excellent plugins. Feel free to check out some
+of the other top plugins, and feel free to comment and let me know if I
+am missing one of your favorite Eclipse plugins.
+
+
+[screenshot_eclipse]: /media/blog/eclipse/Screenshot-Eclipse.png
+[subclipse]: http://marketplace.eclipse.org/content/subclipse
+[subversive]: http://marketplace.eclipse.org/content/subversive-svn-team-provider
+[Subclipse Synchronization View]: /media/blog/eclipse/Screenshot-Subclipse-Eclipse.png
+[Mylyn Trac Connector]: http://marketplace.eclipse.org/content/mylyn-trac-connector
+[earlier]: http://192.168.1.21/blog/justin.php/2011/09/04/linux-development-server-trac-extendability
+[Trac Ticket Queries]: /media/blog/eclipse/Screenshot-Trac-Eclipse.png
+[Trac Ticket Modification]: /media/blog/eclipse/Screenshot-LED_Notification-Eclipse.png
+[Google]: http://www.google.com
+[Android]: http://www.android.com/
+[Android Development Tools]: http://developer.android.com/sdk/eclipse-adt.html
+[screenshot_eclipse_android]: /media/blog/eclipse/Screenshot-Android-Eclipse.png
+[Google Plugin for Eclipse]: http://code.google.com/eclipse/
+[screenshot_eclipse_google]: /media/blog/eclipse/Screenshot-Google_Plugin-Eclipse.png
+[PyDev]: http://marketplace.eclipse.org/content/pydev-python-ide-eclipse
+[screenshot_eclipse_python]: /media/blog/eclipse/Screenshot-PyDev-Eclipse.png
+[Checkstyle plugin]: http://marketplace.eclipse.org/content/checkstyle-plug
+[Checkstyle]: http://checkstyle.sourceforge.net/
+[screenshot_eclipse_checkstyle]: /media/blog/eclipse/Screenshot-Checkstyle-Eclipse.png
+[Eclipse Color Theme]: http://marketplace.eclipse.org/content/eclipse-color-theme
+[their site]: http://www.eclipsecolorthemes.org/
+[screenshot_eclipse_themes]: /media/blog/eclipse/Screenshot-Color_Theme-Eclipse.png

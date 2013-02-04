@@ -1,0 +1,77 @@
+---
+title: Linux Development Server- Trac Extendability
+created: !!timestamp "2011-09-05 01:23:00"
+tags:
+    - Linux
+    - Site
+    - Programming
+---
+
+{% mark image -%}
+[![Trac Plugins][trac_plugins]][trac_plugins]
+
+[trac_plugins]: /media/blog/Trac-Admin-Plugins.png
+{%- endmark %}
+
+{% mark excerpt -%}
+This is part 2 of setting up a Linux Development Server like I have
+done(can be seen [here][]). Recently I wrote a post on setting up a
+Linux Server to use in development environments which you can read
+[here][Linux Development Server - Apache SVN]. This time I would like to highlight a few of the changes that
+I have made to Trac to add additional functionality to it, many of which
+can be seen [here][]. Most of these settings can be changed through the
+Trac Admin page, especially the Plugin part, which is accessed from
+being logged in, and then Admin-\>Plugins. Mine looks like the
+following.
+
+
+
+
+You can install plugins from the right-hand form on this page, and
+manage installed plugins from the center section.
+
+[here]: /projects/messenger
+[Linux Development Server - Apache SVN]: /blog/justin.php/2011/08/30/linux-development-server-apache-svn
+{%- endmark %}
+
+SVN Hooks
+---------
+
+SVN hooks allow you to control Trac tickets from within your subversion
+commit messages. In order to use this we will need to copy SVN hooks
+plugin and configure it.(You can also get a copy of it [here][Trac Commit Hooks])
+
+Continuing with the example from my previous post with the svn and trac
+*project1*, we would run the following commands
+
+    sudo cp /usr/share/doc/trac/contrib/trac-post-commit-hook /usr/share/trac/contrib/
+    cd /var/svn/project1/hooks
+    sudo touch post-commit
+    sudo chmod 755 post-commit
+
+Now we will need to edit the post commit file using your favorite text
+editor. These are the contents of my post-commit file.
+
+    #!/bin/sh
+    REPOS="$1"
+    REV="$2"
+    LOG=`svnlook log -r $REV $REPOS`
+    AUTHOR=`svnlook author -r $REV $REPOS`
+    TRAC_ENV='/var/lib/trac/project1'echo "Writing revision " $REV >  tmplog.txt/usr/bin/python /usr/share/trac/contrib/trac-post-commit.py   
+    -p "$TRAC_ENV"    
+    -r "$REV"         
+    -u "$AUTHOR"      
+    -m "$LOG"sudo svn update /var/lib/trac/project1/doxygen/src/
+    sudo doxygen /var/lib/trac/project1/doxygen/project1
+
+Now you should be able to reference and close tickets in your subversion
+commit statements.
+
+Example commit messages can be seen [here(closes)][] and
+[here(reference)][].
+
+
+[Trac Commit Hooks]: http://trac-hacks.org/wiki/TimingAndEstimationSVNPostCommitHook
+[here(closes)]: /projects/messenger/changeset/21
+[here(reference)]: /projects/messenger/changeset/22
+

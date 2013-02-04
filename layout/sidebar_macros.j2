@@ -1,0 +1,186 @@
+{% macro get_blog_posts(num) -%}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span><a href="/blog/">Recent Posts</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			{% for res in site.content.node_from_relative_path('blog/').walk_resources_sorted_by_time()[:num] %}
+				<li>
+					{# {% refer to res.url as post %} #}
+					<a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a>
+					{# {{ post.image|markdown|typogrify }} #}
+				</li>
+		{% endfor %}
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+{% macro get_photos(resource, num=3) %}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span><a href="/photos/">Photos</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			{% for res in resource.node.walk_resources_sorted_by_time()[:num] %}
+				{% set rel_image_loc = site.config.media_url + res.node.url + '/' +  res.meta.image + "_web.jpg" %}
+				{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
+
+				<li>
+					<a href="{{ content_url(res.url) }}"> {{res.meta.title }}
+					{{ image_md |markdown|typogrify }}
+					</a>
+
+
+				</li>
+			{% endfor %}
+
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+
+{% macro get_recent_photos(resource, num=3) %}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span><a href="/photos/">Recent Photos</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			{% set photo_node = site.content.node_from_relative_path('photos/') %}
+			{% for res in photo_node.walk_resources_sorted_by_time()[:num] %}
+				{% set rel_image_loc = site.config.media_url + res.node.url + '/' +  res.meta.image  + "_web.jpg" %}
+				{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
+
+				<li>
+					<a href="{{ content_url(res.url) }}"> {{res.meta.title }}
+					{{ image_md |markdown|typogrify }}
+					</a>
+
+
+				</li>
+			{% endfor %}
+
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+{% macro get_albums(num) %}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span><a href="/photos/">Albums</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			{% for res in site.content.node_from_relative_path('photos/').child_nodes[:num] %}
+				{% if 'tag' not in res.url %}
+				<li>
+					{% set rel_image_loc = site.config.media_url[1:] + res.url + '/' +  res.meta.album_cover %}
+
+
+					{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
+					<a href="{{res.url}}"> {{res.meta.title }}
+					{{ image_md |markdown|typogrify }}
+					</a>
+
+
+				</li>
+				{% endif %}
+			{% endfor %}
+
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+
+
+{% macro get_portfolio() %}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span><a href="/portfolio/">Portfolio</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			{% for res in site.content.node_from_relative_path('portfolio/').walk_resources_sorted_by_time() %}
+				<li>
+						<a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a>
+				</li>
+			{% endfor %}
+
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+
+
+{% macro get_info(resource) %}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span><a href="{{ content_url(resource.url) }}">Info</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			<li>
+			{{ resource.meta.description }}
+			</li>
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+{% macro get_adsense() %}
+<li class="widget_title">
+	<div class="clearfix">
+	<h3 class="title"><span>Adsense</span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+</div>
+</li>
+<li class="widget_body">
+	<div id="blog-feed-content">
+		<ul class="widget_listing clear">
+			<script type="text/javascript"><!--
+			google_ad_client = "ca-pub-9290011455941969";
+			/* Justin_Blog_Side */
+			google_ad_slot = "2165248867";
+			google_ad_width = 250;
+			google_ad_height = 250;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+		</ul>
+	</div>
+</li>
+{% endmacro %}

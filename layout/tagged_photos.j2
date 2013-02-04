@@ -1,0 +1,17 @@
+{% extends "base_with_sidebar.j2" %}
+
+{% block main %}
+<section class="archives">
+<h1 class="tag title">Tag: {{ tag.name }}</h1>
+<ul class="photo_listing posts clear">
+{% from "macros.j2" import render_photo_excerpt with context  %}
+{% for resource in walker() -%}
+{% if source.url in resource.node.url %}
+<li>
+    {{ render_photo_excerpt(resource, class="tags clear") }}
+</li>
+{% endif %}
+{%- endfor %}
+</ul>
+</section>
+{% endblock %}

@@ -1,0 +1,47 @@
+---
+title: Game of Life VHDL
+description: >
+    Creation of a Game of Life project, designed and implemented using VHDL.
+created: !!timestamp '2010-12-14 10:00:00'
+tags:
+    - VHDL
+    - Game_of_Life
+    - FPGA
+---
+
+{% mark excerpt -%}
+I completed this project with Phil Lundrigan as a team assignment for the Digital System Design class.  
+{%- endmark %}
+Our implementation of he Game of Life is a simulation of life that abides by the following rules
+<table border="10" align="center"><td>
+	<ul style="text-align:left;"><li>If less than 2 neighboring pixels are alive, the pixel dies</li>
+	<li>If more than 3 neighboring pixels are alive, the pixel dies</li>
+	<li>If 3 neighboring pixels are alive, a dead pixel will come back to life</li></ul></td></table>
+
+
+We implemented an LFSR to create a random game board with random colors. 
+Using the VGA controller and block memory we display the game board and write to it depending on certain rules.
+The user can control how dense the game board is populated, what colors are displayed, and how fast the simulation goes.  
+###Implementation Summary###
+
+	Lines of VHDL: 39,959 lines<br />
+	Top Level: 450 lines<br />
+	LFSR: 63 lines<br />
+	Block Memory (frame and lookup table): 39,072 lines<br />
+	Other: 374 lines<br />
+	Number of Slices: 431<br />
+	Max Clock Frequency: 77.656 MHz<br />
+	Used 32768x4-bit RAM and 4096x4-bit ROM<br />
+	Inputs: switches and buttons<br />
+	Outputs: RGB, HS, VS  
+###Block Diagram###
+<img src="{{ media_url("portfolio/block diagram.png") }}" width="600px" /><br /><br />
+<img src="{{ media_url("portfolio/block diagram2.png") }}" width="600px" />
+
+###Source###
+<a href="{{ media_url("portfolio/GameofLife.zip") }}">Game of Life Source</a>
+
+
+			
+
+

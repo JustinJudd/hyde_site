@@ -1,0 +1,113 @@
+---
+title: Linux Development Server- Apache, SVN and Trac
+created: !!timestamp "2011-08-31 03:05:00"
+tags:
+    - Linux
+    - Site
+    - Programming
+---
+
+{% mark excerpt -%}
+I have a development server set up so that I can back up my code and
+colloborate with others on code, similar to Google Code, but self
+hosted. You can see an example by clicking on any of these [projects][projects].
+It is set up using apache as the webserver, SVN for the code
+repository, and Trac for the wiki, source management frontend. Trac is
+extremely expandable and customizable and is used by a number of
+projects such as [Pidgin][Pidgin]. I will highlight my trac modifications in
+my next post.
+
+
+In this post I will highlight installing and setting up all of the
+needed components on a Debian system.
+
+[projects]: /projects
+[Pidgin]: http://developer.pidgin.im/
+
+{%- endmark %}
+
+Install Programs
+----------------
+
+    sudo apt-get install apache2 subversion trac python-setuptools libapache2-mod-python enscript
+
+SVN Configuration
+-----------------
+
+First we will need to create a repository for a project. Let's say that
+we want the project and repository to be called project1. Run these
+following commands to create the repository with the proper permissions
+
+    cd /var
+    sudo mkdir svn
+    sudo svnadmin create /var/svn/project1
+    sudo chmod -R www-data svn
+
+Trac Configuration
+------------------
+
+Now we will need to create the corresponding trac project by entering
+the following commands. Keep in mind the location of the subversion
+repository
+
+    cd /var/lib
+    sudo mkdir trac
+    sudo trac-admin project1 initenv
+    sudo chown -R www-data:www-data project1
+
+You will then want to add ad administrative user to the trac project. We
+will create and add a user *root* to our project1 with the following
+
+    sudo trac-admin project1 permission add root TRAC_ADMIN 
+
+Now we will need to tie a password to the user that Trac can use. We
+will set the password for the root user to passwd123 with the following
+command.
+
+    sudo htpasswd -cb /etc/apache2/passwords root passwd123
+
+Apache Configuration
+--------------------
+
+Now we need to tell Apache about the trac project so that it can serve
+the pages and handle authentication. You can do this by adding the
+following lines to /etc/apache2/sites-enabled/000-default
+
+            <Location /projects>
+                 SetHandler mod_python
+                 PythonInterpreter main_interpreter
+                 PythonHandler trac.web.modpython_frontend
+                 PythonOption TracUriRoot /projects
+                 PythonOption TracEnvParentDir /var/lib/trac
+            </Location>
+
+           <Location "/projects/[^/]+/login">
+                 AuthType       Basic       
+                 AuthName       "Dummy Project trac"
+                 AuthUserFile   /var/etc/passwords      
+                 Require        valid-user
+            </Location>
+
+Now we will just need to restart apache with the following command
+
+    sudo service apache2 restart
+
+Now you should have a basic development server ready to go. I will show
+you soon how to really get the most out of your trac setup.
+
+
+
+Resources:  
+
+*	[Setting up SVN/Trac on Ubuntu][svn_trac_ubuntu]  
+*	[Setting up SVN on Ubuntu][svn_ubuntu]  
+*	[Setting up Trac/SVN on RedHat based Systems][svn_trac_redhat]  
+*	[Trac][trac]  
+
+
+
+[svn_trac_ubuntu]: http://www.subversionary.org/howto/setting-up-a-subversion-server-on-ubuntu-gutsy-gibbon-server
+[svn_ubuntu]: http://www.howtogeek.com/howto/ubuntu/install-subversion-with-web-access-on-ubuntu/
+[svn_trac_redhat]: http://www.jms1.net/svn-trac.shtml
+[trac]: http://trac.edgewall.org/
+

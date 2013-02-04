@@ -1,0 +1,31 @@
+{% extends "base_with_sidebar.j2" %}
+
+{% block main %}
+<h1 class="title">Tags</h1>
+{% from "macros.j2" import render_post with context  %}
+<ul class="listing posts clear">
+ {% for tagname, tag in site.tagger.tags.to_dict().iteritems() -%}
+		{% set exists = [] %}
+		{% for res in tag.resources %}
+			{% if source.url[1:] in res.url %}
+				{% if exists.append(1) %}{% endif %}
+				{{ found }}
+			{% endif %}
+		{% endfor %}
+		{% if exists %}
+			<li>
+   			<h2 class="title"><a title="{{ tagname }}" href="{{ content_url('/photos/tags/{0}'.format(tagname)) }}">{{ tagname }}</a>  </h2>
+			{% set count = 0 %}
+			{% for res in tag.resources %}
+				 {% if source.url[1:] in res.url %}
+					{% if count < 3 %} 
+				&nbsp;&nbsp;&nbsp;<a href="{{ content_url(res.url) }}">{{ res.meta.title }} </a><br />
+					{% set count = count +1 %}
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+			&nbsp;&nbsp;&nbsp;...
+		</li>
+		{% endif %}
+  {%- endfor %}
+{% endblock %}

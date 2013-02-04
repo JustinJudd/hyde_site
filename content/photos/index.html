@@ -1,0 +1,18 @@
+---
+title: Justin Judd's Photos
+description: >
+    Gallery of my photos
+extends: listing.j2
+default_block: main
+created: !!timestamp '2012-11-25 21:00:00'
+listable: false
+---
+
+{% from "macros.j2" import get_albums with context  %}
+
+<ul class="album_listing">
+{{ get_albums(node) }}
+</ul>
+
+
+

@@ -1,0 +1,100 @@
+{% extends "base_with_sidebar.j2" %}
+
+{% block main -%}
+<article class="post">
+<nav class="post_nav">
+{% if 'photos' in resource.url %}
+	{% set main_node = site.content.node_from_relative_path('photos/') %}
+{% elif 'portfolio' in resource.url %}
+	{% set main_node = site.content.node_from_relative_path('portfolio/') %}
+{% elif 'blog' in resource.url %}
+	{% set main_node = site.content.node_from_relative_path('blog/') %}
+{% else %}
+	{% set main_node = node %}
+{% endif %}
+
+<!--
+<a class="backlink" href="{{ content_url(resource.node.url) }}">{{ node.get_resource('index.html').meta.title }} </a>
+-->
+{% set index = main_node.walk_resources_sorted_by_time().index( resource ) %}
+{% if index > 0 %}
+	{% set prev_resource = main_node.walk_resources_sorted_by_time()[index-1] %}
+	
+{% endif %}
+<a class="prev{{' disabled' if not prev_resource }}"
+    title="{{ prev_resource }}"
+    {% if prev_resource %}
+    href="{{ content_url(prev_resource.url) }}"{% endif %}>
+    {{ prev_resource.meta.title }}
+</a>
+
+{% if main_node.walk_resources_sorted_by_time() | count > index %}
+	{% set next_resource = main_node.walk_resources_sorted_by_time()[index+1] %}
+	
+{% endif %}
+<a class="next{{' disabled' if not next_resource }}"
+    title="{{ next_resource.meta.title }}"
+    {% if next_resource %}
+    href="{{ content_url(next_resource.url) }}"{% endif %}>
+    {{ next_resource.meta.title }}
+</a>
+
+<br>
+<!--
+<div id="twitter_share">
+<a href="http://twitter.com/share"
+    class="twitter-share-button"
+    data-count="vertical"
+    data-via="{{ tweet_via }}">Tweet</a>
+    <script type="text/javascript"
+        src="http://platform.twitter.com/widgets.js"></script>
+</div>
+<div id="facebook_like">
+<iframe src="http://www.facebook.com/plugins/like.php?href&amp;layout=box_count&amp;show_faces=false&amp;width=450&amp;action=like&amp;font=arial&amp;colorscheme=light&amp;height=65"
+            scrolling="no"
+            frameborder="0"
+            style="border:none; overflow:hidden; width:450px; height:65px;"
+            allowTransparency="true"></iframe>
+</div>
+-->
+</nav>
+<h1 class="title">
+        {{ resource.meta.title }}
+</h1>
+<time datetime="{{ resource.meta.created.strftime('%Y-%m-%d') }}">
+    Posted: {{ resource.meta.created.strftime('%a, %d %b %Y') }}
+</time>
+
+{% if resource.meta.tags %}
+<ul class="tags clear">
+{% for tag in resource.meta.tags %}
+<li>
+    <a class="small" href="{{ content_url('blog/tags/'~tag~'.html') }}">
+        {{ tag }}
+    </a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+{% if resource.meta.category %}
+<ul class="tags clear">
+{% for tag in resource.meta.category %}
+<li>
+    <a class="small" href="{{ content_url('blog/tags/'~tag~'.html') }}">
+        {{ tag }}
+    </a>
+</li>
+{% endfor %}
+</ul>
+{% endif %}
+
+
+{% filter markdown|typogrify -%}
+{% mark post -%}
+{% block post -%}{%- endblock %}
+{%- endmark %}
+{%- endfilter %}
+</article>
+
+{%- endblock %}

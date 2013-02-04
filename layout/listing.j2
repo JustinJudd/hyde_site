@@ -1,0 +1,37 @@
+{% extends "base_with_sidebar.j2" %}
+{% from "macros.j2" import render_excerpt with context  %}
+{% block main %}
+<ul class="listing clear">
+{#
+{% for res in resource.node.walk_resources_sorted_by_time() %}
+<li>
+    {{ render_excerpt(res) }}
+<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+</li>
+{% endfor %}
+#}
+
+{% if resource.page %}
+{% for res in resource.page.posts %}
+<li>
+    {{ render_excerpt(res) }}
+<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+</li>
+{% endfor %}
+</ul>
+
+<nav class="post_nav">
+{% if resource.page.previous %}<a class="prev" href="{{ content_url(resource.page.previous.resource.url) }}">Previous Page</a>{% endif %}
+{% if resource.page.next %}<a class="next" href="{{ content_url(resource.page.next.resource.url) }}">Next Page</a>{% endif %}
+</nav>
+{% else %}
+
+{% for res in resource.node.walk_resources_sorted_by_time() %}
+<li>
+    {{ render_excerpt(res) }}
+<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+</li>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

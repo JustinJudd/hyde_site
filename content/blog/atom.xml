@@ -1,0 +1,6 @@
+===
+title: Justin Judd Blog Feed
+extends: atom.j2
+listable: false
+excerpts_only : true
+===

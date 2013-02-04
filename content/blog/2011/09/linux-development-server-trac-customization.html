@@ -1,0 +1,151 @@
+---
+title: Linux Development Server- Trac Customization
+created: !!timestamp "2011-09-09 03:19:00"
+tags:
+    - Linux
+    - Site
+    - Programming
+---
+
+
+{% mark image -%}
+[![Custom Trac Project - Messenger Project][]][Custom Trac Project -
+Messenger Project]
+
+
+[Custom Trac Project - Messenger Project]: /media/blog/Trac-Messenger.png
+{%- endmark %}
+
+{% mark excerpt -%}
+
+Previously I covered [setting up a Linux Development Server][] and how
+to [increase Trac Functionality][]. This Post I would like to focus on
+customizing the look of Trac in order to blend it into your site. You
+can see on of my [Trac projects][], and [Pidgin][] is also a good
+example.
+
+
+[setting up a Linux Development Server]: http://192.168.1.21/blog/justin.php/2011/08/30/linux-development-server-apache-svn
+[increase Trac Functionality]: http://192.168.1.21/blog/justin.php/2011/09/04/linux-development-server-trac-extendability
+[Trac projects]: http://192.168.1.21/projects
+[Pidgin]: http://developer.pidgin.im/
+
+
+
+{%- endmark %}
+
+
+
+Project List
+------------
+
+If you have been following my previous posts, you should see a list of
+all of the Trac projects you have created when you go to [IP address or
+domain]/projects
+
+This page is really boring by default, but we can create a custom
+project listing page to match the other pages of a site. First we will
+need to create a file to list the projects. Create this file with the
+following commands.
+
+    cd /var/www/
+    sudo touch project_list.html
+
+Open this project\_list.html with your favorite text editor. Wrap these
+following lines of code within your default page code
+
+    <!-- primary content -->
+              <div class="primary-content">
+                <div class="blocks">
+                  <div>
+                  <h1>Available Projects</h1>
+                <ul>
+                  <p py:for="project in projects" py:choose=""﻿﻿﻿﻿>                <a py:when="project.href" title="$project.description" href="$project.href"><img src="$project.href/chrome/$project.env.project_icon" alt="" height="25" /> $project.name </a>
+                    <p>   $project.description</p>
+                    <py:otherwise>
+                      <small>$project.name: <em>Error</em> <br /> ($project.description)</small>
+
+                    </py:otherwise>                
+                  </p>
+                </ul>
+                  </div>
+                  </div>
+              </div>          <!-- /primary content -->
+
+That code loops through all of the projects, grabs the icon associated
+with the project and then grabs the project name and turns it into a
+link. It then grabs and displays the project description. You can modify
+this as desired by playing around with the $project values. [This
+page][] can give you some ideas of project data you might be able to
+grab
+
+Now we need to add this next line to our
+/etc/apache2/sites-enabled/000-default in the <Location /projects\>
+section that we added before.
+
+    PythonOption TracEnvIndexTemplate /var/www/project_list.html
+
+Now restart the apache server with the following command.
+
+    sudo service apache2 restart 
+
+Now when you visit [IP address or domain]/projects you should be
+presented with your new custom project list.
+
+Project Pages
+-------------
+
+The files you will need to change to modify the look of the Trac project
+are site.html in the templates directory within the Trac project
+directory and style.css in the htdocs directory. In our example we would
+modify site.html in /var/lib/trac/project1/termplates and style.css in
+/var/lib/trac/project1/htdocs. Full information about these
+customizations can be found [here][], but I will outline the highlights
+below.
+
+First, if you are using the custom style.css, you will need at least the
+following and then fill in the rest as needed.
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:py="http://genshi.edgewall.org/"<html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:py="http://genshi.edgewall.org/"
+          py:strip="">  <!--! Add extra style sheets or javascript here -->
+      <head py:match="head" py:attrs="select('@*')">
+        ${select('*|comment()|text()')}
+
+        <!--! This will reference your htdocs/style.css file -->
+        <link rel="stylesheet" type="text/css"
+              href="${href.chrome('site/style.css')}" />
+      </head>  <body py:match="body" py:attrs="select('@*')">
+        <!--! Add site-specific header -->
+        <div id="siteheader">
+          <!--! Place your header content here... -->
+        </div>    ${select('*|text()')}    <!--! Add site-specific footer -->
+        <div id="sitefooter">
+          <!--! Place your footer content here... -->
+        </div>
+      </body>
+    </html>
+
+The style.css file is just a regular style sheet and doesn't have any
+special rules or templating issues for trac. You can see how my project
+pages have the same look and style as the rest of my site at [this
+example][]. I have also found the following references that might help
+out.
+
+References:   
+
+*  [Trac Site.html Cookbook][trac_site_cookbook]   
+*  [Trac StyleSheet Cookbook][trac_style_cookbook]  
+
+
+
+Please feel free to add any insight or comments.
+
+
+
+[This page]: http://stackoverflow.com/questions/2538340/how-is-the-trac-project-list-page-customised
+[here]: http://trac.edgewall.org/wiki/TracInterfaceCustomization
+[this example]: http://192.168.1.21/projects/messenger
+[trac_site_cookbook]: http://trac.edgewall.org/wiki/CookBook/SiteHtml
+[trac_style_cookbook]: http://trac.edgewall.org/wiki/CookBook/SiteStyleCss

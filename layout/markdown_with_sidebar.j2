@@ -1,0 +1,11 @@
+{% extends "base_with_sidebar.j2" %}
+
+{% block main -%}
+
+{% filter markdown|typogrify -%}
+{% mark contents -%}
+{% block contents -%}{%- endblock %}
+{%- endmark %}
+{%- endfilter %}
+
+{%- endblock %}

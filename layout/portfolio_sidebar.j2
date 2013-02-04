@@ -1,0 +1,14 @@
+
+  <div id="sidebar" role="complementary">
+    <ul class="widgets">
+			<!-- Image Feed -->
+			{% from "sidebar_macros.j2" import get_portfolio with context %}
+		 	{{ get_portfolio() }} 
+		</ul>
+	<ul class="widgets">
+		{% from "sidebar_macros.j2" import get_adsense with context %}
+		{{ get_adsense() }}
+	</ul>
+
+  </div>
+

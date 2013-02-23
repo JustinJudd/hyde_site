@@ -4,8 +4,7 @@
 			<!-- Latest Feed -->
 			{% from "sidebar_macros.j2" import get_blog_posts with context %}
 			{{ get_blog_posts(5) }}
-	</ul>
-	<ul class="widgets">
+
 		{% from "sidebar_macros.j2" import get_adsense with context %}
 		{{ get_adsense() }}
 	</ul>

@@ -4,8 +4,7 @@
 			<!-- Image Feed -->
 			{% from "sidebar_macros.j2" import get_photos with context %}
 			{{ get_photos(resource, 3) }}
-		</ul>
-	<ul class="widgets">
+
 		{% from "sidebar_macros.j2" import get_adsense with context %}
 		{{ get_adsense() }}
 	</ul>

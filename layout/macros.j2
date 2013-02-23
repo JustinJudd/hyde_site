@@ -94,7 +94,7 @@
 {% macro render_nav(menu, cls=None) -%}
 {% if menu -%}
   <p class="nav-extra">
-     <a href="/blog/atom.xml" class="nav-extra" title="View RSS Feed"></a><a href="http://twitter.com/Justin_Judd" target="_blank" class="nav-extra" style="background-position:-64px top" title="Follow me on Twitter"></a><a href="http://www.facebook.com/JustinJudd" target="_blank" class="nav-extra" style="background-position:-192px top" title="Find me on Facebook"></a>	<a href="https://plus.google.com/114337450100633107219/"  rel="me" target="_blank" class="nav-extra" style="background-position:-128px top" title="Find me on Google"></a>
+     <a href="/blog/atom.xml" class="nav-extra" title="View RSS Feed"></a><a href="http://twitter.com/Justin_Judd" target="_blank" class="nav-extra" style="background-position:-64px top" title="Follow me on Twitter"></a> <a href="http://www.facebook.com/JustinJudd" target="_blank" class="nav-extra" style="background-position:-192px top" title="Find me on Facebook"></a> <a href="http://www.linkedin.com/pub/justin-judd/14/5a6/381"  rel="me" target="_blank" class="nav-extra" style="background-position:-320px top" title="Find me on LinkedIn"></a> <a href="https://plus.google.com/114337450100633107219/"  rel="me" target="_blank" class="nav-extra" style="background-position:-128px top" title="Find me on Google"></a>
   </p>
 <nav {{'class='~cls if cls }}>
     <ul>
@@ -142,4 +142,3 @@
 		{% include "portfolio_sidebar.j2" %}
 	{% endif %}
 {% endmacro %}
-

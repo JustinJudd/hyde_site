@@ -1,27 +1,37 @@
 {% macro render_excerpt(res, class=None) %}
 {% refer to res.url as post %}
-<article {{'class='~class if class }}>
-<h2 class="title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
-<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
-<div class="post-info">
- {% if res.meta.tags %}
-	{% set tag = res.meta.tags[0] %}
-	{% set p = res.url.split('/')[0] %}
-  Posted in <a href="{{ content_url(p~'/tags/'~tag~'.html') }}">{{ tag }}</a> 
-  {% endif %}
+
+<div class="title">
+	<h2 class="post-title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+	<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+	<div class="post-info">
+	 {% if res.meta.tags %}
+	<ul class="tags clear">
+	{% for tag in res.meta.tags %}
+	<li>
+		<a class="small" href="{{ content_url('blog/tags/'~tag~'.html') }}">
+		    {{ tag }}
+		</a>
+	</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	</div>
 </div>
-<div class="image_block">
-<a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
+<div class="post-content">
+	<div class="image_block">
+	<a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
+	</div>
+	{{ post.excerpt|markdown|typogrify }}
 </div>
-{{ post.excerpt|markdown|typogrify }}
-</article>
 {% endmacro %}
 
 
 {% macro render_post(res, n=30, class=None) %}
 {% refer to res.url as post %}
 <article {% if class %}class="{{ class }}"{% endif %}>
-<h2 class="title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+<div class="title">
+<h2 class="post-title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
 <div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
 <div class="post-info">
   {% if res.meta.tags %}
@@ -29,6 +39,8 @@
   Posted in <a href="{{ content_url('blog/tags/'~tag~'.html') }}">{{ tag }}</a> 
   {% endif %}
 </div>
+</div>
+<div class="post-content">
 <a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
 {% set post_text =  post.post|markdown|typogrify %}
 {% if post.image %}
@@ -38,16 +50,21 @@
 {% endif %}
 
 {{  (" ").join(post_text.split("/>")[split_place].split(" ")[:n] ) }}... <span class="excerpt_more"><a href="{{ content_url(res.url) }}">more &raquo;</a></span>
+</div>
 </article>
 {% endmacro %}
 
 {% macro render_photo_excerpt(res, class=None) %}
 {% refer to res.url as post %}
 <article {{'class='~class if class }}>
-<h4 class="title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+<div class="title">
+<h4 class="post-title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+</div>
+<div class="post-content">
 {% set rel_image_loc = site.config.media_url + res.node.url + '/' +  res.meta.image + "_web.jpg" %}
 {% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
 <a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
+</div>
 </article>
 {% endmacro %}
 
@@ -60,7 +77,8 @@
 {% refer to first.url as post  %}
 
 <article {{'class='~class if class }}>
-<h2 class="title"><a href="{{ content_url(node.url) }}">{{ res.meta.title }}</a></h2>
+<div class="title">
+<h2 class="post-title"><a href="{{ content_url(node.url) }}">{{ res.meta.title }}</a></h2>
 <div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
 <div class="post-info">
 {% if res.meta.tags %}
@@ -68,10 +86,13 @@
   Posted in <a href="{{ content_url('photos/tags/'~tag~'.html') }}">{{ tag }}</a> 
   {% endif %}
 </div>
+</div>
+<div class="post-content">
 {% set rel_image_loc = site.config.media_url + first.node.url + '/' +  first.meta.image + "_web.jpg" %}
 {% set image_md = '![' + first.meta.title  + '](' + rel_image_loc + ')' %}
 <a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
 {{ res.meta.description }}
+</div>
 </article>
 {% endif %}
 {% endmacro %}
@@ -142,3 +163,4 @@
 		{% include "portfolio_sidebar.j2" %}
 	{% endif %}
 {% endmacro %}
+

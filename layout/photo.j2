@@ -1,7 +1,6 @@
 {% extends "base_with_sidebar.j2" %}
 
 {% block main -%}
-<article class="post">
 <nav class="post_nav">
 {% if 'photos' in resource.url %}
 	{% set main_node = site.content.node_from_relative_path('photos/') %}
@@ -51,25 +50,35 @@
 <br>
 </nav>
 
+<article class="post">
+<div class="title">
+	<h1 class="post-title">
+		    {{ resource.meta.title }}
+	</h1>
 
-<h1 class="title">
-        {{ resource.meta.title }}
-</h1>
-<time datetime="{{ resource.meta.created.strftime('%Y-%m-%d') }}">
-    Posted: {{ resource.meta.created.strftime('%a, %d %b %Y') }}
-</time>
+	<div class="post-date">
+	<!--
+	<time datetime="{{ resource.meta.created.strftime('%Y-%m-%d') }}">
+		Taken: {{ resource.meta.created.strftime('%a, %d %b %Y') }}
+	</time>
+	-->
+	<p>{{ resource.meta.created.strftime('%b %d %Y') }}</p>
+	</div>
 
-{% if resource.meta.tags %}
-<ul class="tags clear">
-{% for tag in resource.meta.tags %}
-<li>
-    <a class="small" href="{{ content_url('photos/tags/'~tag~'.html') }}">
-        {{ tag }}
-    </a>
-</li>
-{% endfor %}
-</ul>
-{% endif %}
+	<div class="post-info">
+	{% if resource.meta.tags %}
+	<ul class="tags clear">
+	{% for tag in resource.meta.tags %}
+	<li>
+		<a class="small" href="{{ content_url('photos/tags/'~tag~'.html') }}">
+		    {{ tag }}
+		</a>
+	</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	</div>
+</div>
 
 {% if resource.meta.category %}
 <ul class="tags clear">
@@ -83,13 +92,14 @@
 </ul>
 {% endif %}
 
-
+<div class="post-content">
 {% filter markdown|typogrify -%}
 {% mark post -%}
 {% block post -%}
 {%- endblock %}
 {%- endmark %}
 {%- endfilter %}
+</div>
 </article>
 
 {%- endblock %}

@@ -2,7 +2,7 @@
 <!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
        change the UA-XXXXX-X to be your site's ID -->
 <script>
-    var _gaq = [['_setAccount', '{{ resource.meta.analytics.google.id }}'], ['_trackPageview']];
+    var _gaq = [['_setAccount', '{{ resource.meta.analytics.id }}'], ['_trackPageview']];
     (function(d, t) {
     var g = d.createElement(t),
         s = d.getElementsByTagName(t)[0];
@@ -11,17 +11,4 @@
     s.parentNode.insertBefore(g, s);
     })(document, 'script');
 </script>
-
-<!-- Piwik --> 
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://{{ resource.meta.analytics.piwik.base }}" : "http://{{ resource.meta.analytics.piwik.base }}");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-try {
-var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", {{ resource.meta.analytics.piwik.id }});
-piwikTracker.trackPageView();
-piwikTracker.enableLinkTracking();
-} catch( err ) {}
-</script><noscript><p><img src="http://{{ resource.meta.analytics.piwik.base }}piwik.php?idsite={{ resource.meta.analytics.piwik.id }}" style="border:0" alt="" /></p></noscript>
-<!-- End Piwik Tracking Code -->
 {% endif %}

@@ -7,7 +7,7 @@ description: Home page
 
 {% block main %}
 {% from "macros.j2" import render_excerpt with context %}
-<section class="blog_excerpt">
+<article class="blog_excerpt">
 {% set latest = site.content.node_from_relative_path('blog/').walk_resources_sorted_by_time()|first %}
 
 {% if latest -%}

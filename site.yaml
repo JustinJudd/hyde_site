@@ -54,14 +54,8 @@ meta:
     created: !!timestamp 2012-11-25 00:00:00
     author: Justin Judd
     site_title: Justin Judd
-    site_description: "Engineer, Developer and Open Source Enthusiast"
+    site_description: "Engineer, Developer, and Open Source Enthusiast"
     site_url: 'http://www.justinjudd.org'
-    analytics: 
-        google:
-            id: UA-8763295-1
-        piwik:
-            base: www.justinjudd.org/analytics/
-            id: 1
 sorter:
     time:
         attr:

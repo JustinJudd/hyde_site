@@ -1,11 +1,14 @@
 {% extends "base_with_sidebar.j2" %}
 
 {% block main -%}
-
+<article>
+<div class="post-content">
 {% filter markdown|typogrify -%}
 {% mark contents -%}
 {% block contents -%}{%- endblock %}
 {%- endmark %}
 {%- endfilter %}
+</div>
+</article>
 
 {%- endblock %}

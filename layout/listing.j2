@@ -14,8 +14,10 @@
 {% if resource.page %}
 {% for res in resource.page.posts %}
 <li>
+<article {{'class='~class if class }}>
     {{ render_excerpt(res) }}
 <span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+</article>
 </li>
 {% endfor %}
 </ul>
@@ -28,8 +30,10 @@
 
 {% for res in resource.node.walk_resources_sorted_by_time() %}
 <li>
+<article {{'class='~class if class }}>
     {{ render_excerpt(res) }}
 <span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+</article>
 </li>
 {% endfor %}
 {% endif %}

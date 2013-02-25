@@ -1,0 +1,59 @@
+{% extends "base_with_sidebar.j2" %}
+{% set title =  " Archive: "  %}
+{% block main %}
+
+<section class="archives">
+<header id="introduction" class="contain">
+	<hgroup>
+		<h1 id="page-title">Archive</h1>
+	
+		{% set parts = node.url.split('/') %}	
+		{% set month = parts[3] %}	
+		{% set year = parts[2] %}	
+		
+		{# Method 1 #}
+		{% set this_date =  time_now %}
+		{% set this_date = this_date.replace(year= year|int ) %}
+
+		{% set output = this_date.strftime('%Y') %}
+		{% if month %}
+		{% set this_date = this_date.replace(month= month|int ) %}
+		{% set output = this_date.strftime('%B, %Y') %}
+		{% endif %}
+		
+
+		{# Method 2
+		{% set output = year  %}
+		{% if month %}
+		{% set month = month | replace( '01', 'January') %}
+		{% set month = month | replace( '02', 'February') %}
+		{% set month = month | replace( '03', 'March') %}
+		{% set month = month | replace( '04', 'April') %}
+		{% set month = month | replace( '05', 'May') %}
+		{% set month = month | replace( '06', 'June') %}
+		{% set month = month | replace( '07', 'July') %}
+		{% set month = month | replace( '08', 'August') %}
+		{% set month = month | replace( '09', 'September') %}
+		{% set month = month | replace( '10', 'October') %}
+		{% set month = month | replace( '11', 'November') %}
+		{% set month = month | replace( '12', 'December') %}
+		{% set output = month + ', ' + year  %}
+		{% endif %}
+		#}
+
+		
+		
+
+		<h2 id="page-tagline">All posts from {{ output }}</h2>
+	</hgroup>
+</header>
+<ul class="listing posts clear">
+{% from "macros.j2" import render_post with context  %}
+{% for res in resource.node.walk_resources_sorted_by_time() %}
+<li>
+    {{ render_post(res, class="tags clear") }}
+</li>
+{%- endfor %}
+</ul>
+</section>
+{% endblock %}

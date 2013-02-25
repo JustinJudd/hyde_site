@@ -90,7 +90,7 @@
 			{% for res in site.content.node_from_relative_path('photos/').child_nodes[:num] %}
 				{% if 'tag' not in res.url %}
 				<li>
-					{% set rel_image_loc = site.config.media_url[1:] + res.url + '/' +  res.meta.album_cover + '_web.jpg' %}
+					{% set rel_image_loc = '/' + site.config.media_url[1:] + res.url + '/' +  res.meta.album_cover + '_web.jpg' %}
 
 					{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
 					<a href="{{res.url}}"> {{res.meta.title }}

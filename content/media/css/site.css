@@ -528,6 +528,7 @@ h2#site-description a {
 	margin: 0;
 	padding: 10px 20px 10px;
 	position: relative;
+	top:-15px;
 }
 #introduction hgroup {
 	float: left;
@@ -605,6 +606,7 @@ h2#site-description a {
     width: 300px;
 	list-style-type: none;
 	float:left;
+	margin-right: 10px;
 }
 
 .album_listing li:nth-child(2){
@@ -624,6 +626,7 @@ h2#site-description a {
     width: 200px;
 	list-style-type: none;
 	float:left;
+	margin-right: 10px;
 }
 
 .photo_listing li:nth-child(3){
@@ -1034,7 +1037,7 @@ a.backlink:hover, a.prev:hover, a.next:hover{
 .commentlist .pingback,
 .post-date,
 .hentry,
-.widget_body {
+.widget {
 	-webkit-box-shadow: .2em .2em .3em rgba( 0, 0, 0, 0.45 );
 	-moz-box-shadow: .2em .2em .3em rgba( 0, 0, 0, 0.45 );
 	box-shadow: .2em .2em .3em rgba( 0, 0, 0, 0.45 );

@@ -1,7 +1,15 @@
 {% extends "base_with_sidebar.j2" %}
 
 {% block main %}
-<h1 class="title">Tags</h1>
+
+{% set site_section = node.url.split('/')[1] %}
+<header id="introduction" class="contain">
+		<hgroup>
+		<h1 id="page-title">Tags</h1>
+		<h2 id="page-tagline">All {{ site_section }} tags available</h2>
+		</hgroup>
+</header>
+
 {% from "macros.j2" import render_post with context  %}
 <ul class="listing posts clear">
  {% for tagname, tag in site.tagger.tags.to_dict().iteritems() -%}
@@ -13,8 +21,9 @@
 			{% endif %}
 		{% endfor %}
 		{% if exists %}
-			<li>
-   			<h2 class="title"><a title="{{ tagname }}" href="{{ content_url('/photos/tags/{0}'.format(tagname)) }}">{{ tagname }}</a>  </h2>
+			<li> <article>
+			<div class="title">
+   			<h2 class="post-title"><a title="{{ tagname }}" href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">{{ tagname }}</a>  </h2> </div> <div class="post-content">
 			{% set count = 0 %}
 			{% for res in tag.resources %}
 				 {% if source.url[1:] in res.url %}
@@ -25,6 +34,7 @@
 				{% endif %}
 			{% endfor %}
 			&nbsp;&nbsp;&nbsp;...
+			</div> </article>
 		</li>
 		{% endif %}
   {%- endfor %}

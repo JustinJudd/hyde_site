@@ -2,7 +2,12 @@
 {% set title = tag.name %}
 {% block main %}
 <section class="archives">
-<h1 class="tag title">Tag: {{ tag.name }}</h1>
+<header id="introduction" class="contain">
+		<hgroup>
+		<h1 id="page-title">Tag</h1>
+		<h2 id="page-tagline">All photos tagged with {{ tag.name }}</h2>
+		</hgroup>
+</header>
 <ul class="photo_listing posts clear">
 {% from "macros.j2" import render_photo_excerpt with context  %}
 {% for resource in walker() -%}

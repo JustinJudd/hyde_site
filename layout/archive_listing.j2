@@ -18,7 +18,7 @@
 		{% set output = this_date.strftime('%Y') %}
 		{% if month %}
 		{% set this_date = this_date.replace(month= month|int ) %}
-		{% set output = this_date.strftime('%B, %Y') %}
+		{% set output = this_date.strftime('%B %Y') %}
 		{% endif %}
 		
 

@@ -138,7 +138,7 @@ strike {
 	text-decoration: line-through;
 }
 ins {
-	background-color: #989eae;
+	/*background-color: #989eae;*/
 	color: #202228;
 	padding-right: 3px;
 	padding-left: 4px;
@@ -876,8 +876,11 @@ div.entry-navigation {
 
 nav.post_nav{
     font-size: 12px;
-    padding-left: 24px;
+    /*
+	padding-left: 24px;
     padding-right: 24px;
+	*/
+	padding-bottom: 15px;
 
 }
 

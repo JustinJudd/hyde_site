@@ -183,7 +183,9 @@
 		
 {% set this_date =  time_now %}
 
+
 {% if not "index" in year and not "tags" in resource.url %}
+
 <li class="widget">
 	<div class="clearfix">
 	<h3 class="widget_title"><span>Archive</span></h3>
@@ -200,6 +202,9 @@
 			{% endif %}
 			{% if "index" in month %}
 				{% set month = None %}
+			{% endif %}
+			{% if "index" in year %}
+				{% set year = None %}
 			{% endif %}
 
 			{% if article or month %}
@@ -228,19 +233,26 @@
 						{% endif %}
 					{% endif %}
 				{% endfor %}
-			{% else %}
+			{% elif year %}
+
 				{% for n in resource.node.parent.child_nodes %}
 					{% set item_count =  n.walk_resources_sorted_by_time() | count %}
 					{% if item_count %}
+						{% set year = n.url.split('/')[2] %}
+						{% if year %}
 						{% set this_date = this_date.replace(year= n.url.split('/')[2]|int ) %}
+						{% endif %}
 						{% if n.url[1:] in resource.url %}
 						<li> <a href="{{ n.url }}"><b>{{ this_date.strftime('%Y') }} ({{item_count}})</b></a> </li>
 						<ul>
 						{% for n_month in resource.node.child_nodes %}
 							{% set item_count =  n_month.walk_resources_sorted_by_time() | count %}
 							{% if item_count %}
+								{% set month = n_month.url.split('/')[3] %}
+								{% if month %}
 								{% set this_date = this_date.replace(month= n_month.url.split('/')[3]|int ) %}
 									<li> <a href="{{ n_month.url }}">{{ this_date.strftime('%B %Y') }} ({{item_count}})</a> </li>
+								{% endif %}
 							{% endif %}
 						{% endfor %}
 						</ul>
@@ -249,11 +261,12 @@
 						{% endif %}
 					{% endif %}
 				{% endfor %}
+
 			{% endif %} 
 			
 			
 		</ul>
 	</div>
-</li>
-{% endif %} 
+</li> 
+{% endif %}
 {% endmacro %}

@@ -184,7 +184,7 @@
 {% set this_date =  time_now %}
 
 
-{% if not "index" in year and not "tags" in resource.url %}
+
 
 <li class="widget">
 	<div class="clearfix">
@@ -203,11 +203,27 @@
 			{% if "index" in month %}
 				{% set month = None %}
 			{% endif %}
-			{% if "index" in year %}
-				{% set year = None %}
-			{% endif %}
 
-			{% if article or month %}
+			{% if "index" in year or "page" in year %}
+				{% for n in resource.node.child_nodes | sort(attribute='source.name') | reverse %}
+					{% set item_count =  n.walk_resources_sorted_by_time() | count %}
+					{% if item_count %}
+						{% set this_date = this_date.replace(year= n.url.split('/')[2]|int ) %}
+						<li> <a href="{{ n.url }}">{{ this_date.strftime('%Y') }} ({{item_count}})</a> </li>
+						
+					{% endif %}
+				{% endfor %}
+			{% elif "tags" in resource.url %}
+				{% for n in resource.node.parent.child_nodes | sort(attribute='source.name') | reverse %}
+					{% set item_count =  n.walk_resources_sorted_by_time() | count %}
+					{% if item_count %}
+						{% set this_date = this_date.replace(year= n.url.split('/')[2]|int ) %}
+						<li> <a href="{{ n.url }}">{{ this_date.strftime('%Y') }} ({{item_count}})</a> </li>
+						
+					{% endif %}
+				{% endfor %}
+		
+			{% elif article or month %}
 				{% set this_date = this_date.replace(year= year|int ) %}
 				{% for n in resource.node.parent.parent.child_nodes | sort(attribute='source.name') | reverse %}
 					{% set item_count =  n.walk_resources_sorted_by_time() | count %}
@@ -268,5 +284,5 @@
 		</ul>
 	</div>
 </li> 
-{% endif %}
+
 {% endmacro %}

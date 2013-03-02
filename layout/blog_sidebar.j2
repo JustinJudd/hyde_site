@@ -5,11 +5,9 @@
 		{% from "sidebar_macros.j2" import get_blog_posts with context %}
 		{{ get_blog_posts(5) }}
 
-		{% set parts = resource.url.split('/') %}
-		{% if not "index" in parts[1] and not "tags" in resource.url %}	
+
 		{% from "sidebar_macros.j2" import get_archive with context %}
 		{{ get_archive(resource) }}
-		{% endif %}
 		
 
 		{% from "sidebar_macros.j2" import get_adsense with context %}

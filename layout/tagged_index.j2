@@ -33,7 +33,8 @@
 					{% endif %}
 				{% endif %}
 			{% endfor %}
-			&nbsp;&nbsp;&nbsp;<a href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">...</a>
+			&nbsp;&nbsp;&nbsp;...
+			<br /><span class="excerpt_more"><a href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">more &raquo;</a></span>
 			</div> </article>
 		</li>
 		{% endif %}

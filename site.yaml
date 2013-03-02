@@ -18,7 +18,7 @@ context:
                 description: Home Page
                 css_class: home
                 type: page
-                url: index.html
+                url: /
             -
                 name: Blog
                 description: Blog

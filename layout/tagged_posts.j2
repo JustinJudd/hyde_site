@@ -5,7 +5,7 @@
 <header id="introduction" class="contain">
 		<hgroup>
 		<h1 id="page-title"><a href="./">Tag</a></h1>
-		<h2 id="page-tagline">All posts tagged with {{ tag.name }}</h2>
+		<h2 id="page-tagline">All {% if 'blog' in resource.url %}posts {% else %} portfolio items {% endif %} tagged with {{ tag.name }}</h2>
 		</hgroup>
 </header>
 <ul class="listing posts clear">

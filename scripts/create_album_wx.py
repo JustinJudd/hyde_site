@@ -439,7 +439,7 @@ class BaseAlbumDialog(wx.Dialog):
         dir_dialog.Destroy()
 
     def add_photos(self, event):  # wxGlade: NewAlbumDialog.<event_handler>
-        filters = '*.jpg'
+        filters = 'Image Files (*.jpg)|*.jpg;*.JPG'
         file_dialog = wx.FileDialog(self, "Choose photos", '/'.join(os.getcwd().split('/')[0:-1]), "", filters, wx.OPEN|wx.MULTIPLE)
         if file_dialog.ShowModal() == wx.ID_OK:
             new_photos = file_dialog.GetPaths()

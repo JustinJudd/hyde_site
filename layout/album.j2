@@ -1,5 +1,5 @@
 {% extends "base_with_sidebar.j2" %}
-{% from "macros.j2" import render_photo_excerpt with context  %}
+{% from "photo_macros.j2" import render_photo_excerpt with context  %}
 {% block main %}
 
 <nav class="post_nav">
@@ -16,7 +16,7 @@
 </nav>
 
 
-{% from "macros.j2" import get_albums with context  %}
+{% from "photo_macros.j2" import get_albums with context  %}
 
 <ul class="album_listing clear">
 {{ get_albums(node) }}

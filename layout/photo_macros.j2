@@ -1,0 +1,56 @@
+{% macro render_photo_excerpt(res, class=None) %}
+{% refer to res.url as post %}
+<article {{'class='~class if class }}>
+<div class="title">
+<h4 class="post-title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+</div>
+<div class="post-content">
+{% set rel_image_loc = site.config.media_url + res.node.url + '/' +  res.meta.image + "_web.jpg" %}
+{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
+<a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
+</div>
+</article>
+{% endmacro %}
+
+
+{% macro render_album_excerpt(node, class=None) %}
+
+{% set res =  node.get_resource('index.html') %}
+{% if node.walk_resources_sorted_by_time() %}
+{% set first = node.walk_resources_sorted_by_time()[0] %}
+{% refer to first.url as post  %}
+
+<article {{'class='~class if class }}>
+<div class="title">
+<h2 class="post-title"><a href="{{ content_url(node.url) }}">{{ res.meta.title }}</a></h2>
+<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+<div class="post-info">
+{% if res.meta.tags %}
+	{% set tag = res.meta.tags[0] %}
+  Posted in <a href="{{ content_url('photos/tags/'~tag~'.html') }}">{{ tag }}</a> 
+  {% endif %}
+</div>
+</div>
+<div class="post-content">
+{% set rel_image_loc = site.config.media_url + node.url + '/' +  node.meta.album_cover + "_web.jpg" %}
+{% set image_md = '![' + first.meta.title  + '](' + rel_image_loc + ')' %}
+<a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
+{{ res.meta.description }}
+</div>
+</article>
+{% endif %}
+{% endmacro %}
+
+{% macro get_albums(n) %}
+{% for n in node.walk() %}	
+	{% if n != node %}
+		{% if  n.parent == node %}
+
+			<li>
+				{{ render_album_excerpt(n) }}
+
+			</li>
+		{% endif %}
+	{% endif %}
+{% endfor %}
+{% endmacro %}

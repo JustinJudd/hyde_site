@@ -1,0 +1,62 @@
+{% macro render_excerpt(res, class=None) %}
+{% refer to res.url as post %}
+
+<div class="title">
+	<h2 class="post-title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+	<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+	<div class="post-info">
+	 {% if res.meta.tags %}
+	<ul class="tags clear">
+	{% for tag in res.meta.tags %}
+	<li>
+		<a class="small" href="{{ content_url(res.url.split('/')[0] + '/tags/'~tag~'.html') }}">
+		    {{ tag }}
+		</a>
+	</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+	</div>
+</div>
+<div class="post-content">
+	<div class="image_block">
+	<a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
+	</div>
+	{{ post.excerpt|markdown|typogrify }}
+</div>
+{% endmacro %}
+
+
+{% macro render_post(res, n=30, class=None) %}
+{% refer to res.url as post %}
+<article {% if class %}class="{{ class }}"{% endif %}>
+<div class="title">
+<h2 class="post-title"><a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a></h2>
+<div class="post-date"><p class="day">{{ res.meta.created.strftime('%b %d %Y') }}</p></div>
+<div class="post-info">
+  {% if res.meta.tags %}
+	<ul class="tags clear">
+	{% for tag in res.meta.tags %}
+	<li>
+		<a class="small" href="{{ content_url(res.url.split('/')[0] + '/tags/'~tag~'.html') }}">
+		    {{ tag }}
+		</a>
+	</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+</div>
+</div>
+<div class="post-content">
+<a href="{{ content_url(res.url) }}">{{ post.image|markdown|typogrify }}</a>
+{% set post_text =  post.post|markdown|typogrify %}
+{% if post.image %}
+ {% set split_place = 1 %}
+{% else %}
+ {% set split_place = 0 %}
+{% endif %}
+
+{{  (" ").join(post_text.split("/>")[split_place].split(" ")[:n] ) }}... <br /><span class="excerpt_more"><a href="{{ content_url(res.url) }}">more &raquo;</a></span>
+</div>
+</article>
+{% endmacro %}

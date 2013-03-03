@@ -9,7 +9,7 @@
 		</hgroup>
 </header>
 <ul class="photo_listing posts clear">
-{% from "macros.j2" import render_photo_excerpt with context  %}
+{% from "photo_macros.j2" import render_photo_excerpt with context  %}
 {% for resource in walker() -%}
 {% if source.url in resource.node.url %}
 <li>

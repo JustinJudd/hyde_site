@@ -9,7 +9,7 @@
 		</hgroup>
 </header>
 <ul class="listing posts clear">
-{% from "macros.j2" import render_post with context  %}
+{% from "post_macros.j2" import render_post with context  %}
 {% for resource in walker() -%}
 {% if source.url in resource.node.url %}
 <li>

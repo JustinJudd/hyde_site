@@ -48,7 +48,7 @@
 	</hgroup>
 </header>
 <ul class="listing posts clear">
-{% from "macros.j2" import render_post with context  %}
+{% from "post_macros.j2" import render_post with context  %}
 {% for res in resource.node.walk_resources_sorted_by_time() %}
 <li>
     {{ render_post(res, class="tags clear") }}

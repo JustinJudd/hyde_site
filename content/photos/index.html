@@ -8,7 +8,7 @@ created: !!timestamp '2012-11-25 21:00:00'
 listable: false
 ---
 
-{% from "macros.j2" import get_albums with context  %}
+{% from "photo_macros.j2" import get_albums with context  %}
 
 <ul class="album_listing">
 {{ get_albums(node) }}

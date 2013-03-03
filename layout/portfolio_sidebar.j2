@@ -2,7 +2,7 @@
   <div id="sidebar" role="complementary">
     <ul class="widgets">
 			<!-- Image Feed -->
-			{% from "sidebar_macros.j2" import get_portfolio with context %}
+			{% from "portfolio_sidebar_macros.j2" import get_portfolio with context %}
 		 	{{ get_portfolio() }} 
 		
 		{% from "sidebar_macros.j2" import get_adsense with context %}

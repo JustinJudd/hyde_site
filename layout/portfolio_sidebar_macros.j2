@@ -1,0 +1,24 @@
+{% macro get_portfolio() %}
+<li class="widget">
+	<div class="clearfix">
+	<h3 class="widget_title"><span><a href="/portfolio/">Portfolio</a></span></h3>
+	<div class="block-div"></div>
+	<div class="block-div-arrow"></div>
+	</div>
+
+	<div id="blog-feed-content" class="widget_body">
+		<ul class="widget_listing clear">
+			{% for res in site.content.node_from_relative_path('portfolio/').walk_resources_sorted_by_time() %}
+				<li>
+						<a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a>
+				</li>
+			{% endfor %}
+
+		</ul>
+	</div>
+</li>
+{% endmacro %}
+
+
+
+

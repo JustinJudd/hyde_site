@@ -2,11 +2,11 @@
   <div id="sidebar" role="complementary">
     <ul class="widgets">
 		<!-- Latest Feed -->
-		{% from "sidebar_macros.j2" import get_blog_posts with context %}
+		{% from "blog_sidebar_macros.j2" import get_blog_posts with context %}
 		{{ get_blog_posts(5) }}
 
 
-		{% from "sidebar_macros.j2" import get_archive with context %}
+		{% from "blog_sidebar_macros.j2" import get_archive with context %}
 		{{ get_archive(resource) }}
 		
 

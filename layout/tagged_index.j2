@@ -10,7 +10,6 @@
 		</hgroup>
 </header>
 
-{% from "macros.j2" import render_post with context  %}
 <ul class="listing posts clear">
  {% for tagname, tag in site.tagger.tags.to_dict().iteritems() -%}
 		{% set exists = [] %}
@@ -24,17 +23,17 @@
 			<li> <article>
 			<div class="title">
    			<h2 class="post-title"><a title="{{ tagname }}" href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">{{ tagname }}</a>  </h2> </div> <div class="post-content">
-			{% set count = 0 %}
-			{% set total_count = tag.resources | count %}
+			{% set found = [] %}
 			{% for res in tag.resources %}
 				 {% if source.url[1:] in res.url %}
-					{% if count < 3 %} 
-				&nbsp;&nbsp;&nbsp;<a href="{{ content_url(res.url) }}">{{ res.meta.title }} </a><br />
-					{% set count = count +1 %}
-					{% endif %}
+					{% do found.append(res) %}
+
 				{% endif %}
 			{% endfor %}
-			{% if total_count > 3 and count == 3 %}
+			{% for res in found[:3] %}
+				&nbsp;&nbsp;&nbsp;<a href="{{ content_url(res.url) }}">{{ res.meta.title }} </a><br />
+			{% endfor %}
+			{% if found|count > 3 %}
 			&nbsp;&nbsp;&nbsp;...
 			<br /><span class="excerpt_more"><a href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">more &raquo;</a></span>
 			{% endif %}

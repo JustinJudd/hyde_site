@@ -87,13 +87,13 @@
 
 	<div id="blog-feed-content" class="widget_body">
 		<ul class="widget_listing clear">
-			{% for res in site.content.node_from_relative_path('photos/').child_nodes[:num] %}
-				{% if 'tag' not in res.url %}
+			{% for n in site.content.node_from_relative_path('photos/').child_nodes[:num] %}
+				{% if 'tag' not in n.url %}
 				<li>
-					{% set rel_image_loc = '/' + site.config.media_url[1:] + res.url + '/' +  res.meta.album_cover + '_web.jpg' %}
+					{% set rel_image_loc = '/' + site.config.media_url[1:] + n.url + '/' +  n.meta.album_cover + '_web.jpg' %}
 
-					{% set image_md = '![' + res.meta.title  + '](' + rel_image_loc + ')' %}
-					<a href="{{res.url}}"> {{res.meta.title }}
+					{% set image_md = '![' + n.meta.title  + '](' + rel_image_loc + ')' %}
+					<a href="{{n.url}}"> {{n.meta.title }}
 					{{ image_md |markdown|typogrify }}
 					</a>
 

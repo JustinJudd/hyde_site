@@ -95,7 +95,7 @@
 </div>
 </div>
 <div class="post-content">
-{% set rel_image_loc = site.config.media_url + first.node.url + '/' +  first.meta.image + "_web.jpg" %}
+{% set rel_image_loc = site.config.media_url + node.url + '/' +  node.meta.album_cover + "_web.jpg" %}
 {% set image_md = '![' + first.meta.title  + '](' + rel_image_loc + ')' %}
 <a href="{{ content_url(res.url) }}">{{ image_md|markdown|typogrify }}</a>
 {{ res.meta.description }}

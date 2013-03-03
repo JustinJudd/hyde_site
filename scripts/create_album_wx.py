@@ -16,15 +16,11 @@ from string import Template
 
 
 
-album_template = Template("""---
-title: $album_name
-description: >
-    $album_description
+album_string = """---
 extends: album.j2
 default_block: test
 listable: false
-album_cover: $album_cover
----""")
+---"""
 
 meta_template = Template("""extends: photo.j2
 default_block: post
@@ -793,7 +789,7 @@ class Album:
         d= {'album_name':self.name, 'album_description': self.description, 'album_cover': self.photos[self.cover].get_webname() }
 
         f = open(os.path.join( self.location ,'index.html'), 'w')
-        f.write( album_template.substitute(d) )
+        f.write( album_string )
         f.close()
 
         wx.Yield()

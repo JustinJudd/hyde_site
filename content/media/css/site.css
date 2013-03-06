@@ -575,11 +575,11 @@ h2#site-description a {
 
 }
 
-.listing li:nth-child(2){
+.listing li:nth-child(2n+0){
     margin-right: 0;
 }
 
-.listing li:nth-child(3){
+.listing li:nth-child(2n+1){
     clear: left;
 }
 
@@ -608,11 +608,11 @@ h2#site-description a {
 	margin-right: 10px;
 }
 
-.album_listing li:nth-child(2){
+.album_listing li:nth-child(2n){
     margin-right: 0;
 }
 
-.album_listing li:nth-child(3){
+.album_listing li:nth-child(2n+1){
     clear: left;
 }
 
@@ -628,11 +628,11 @@ h2#site-description a {
 	margin-right: 10px;
 }
 
-.photo_listing li:nth-child(3){
+.photo_listing li:nth-child(3n+1){
     margin-right: 0;
 }
 
-.photo_listing li:nth-child(4){
+.photo_listing li:nth-child(3n+1){
     clear: left;
 }
 
@@ -771,6 +771,8 @@ h4.post-title {
 	line-height: 30px;
 	margin: 0;
 	padding: 0;
+	white-space: nowrap;
+	overflow: hidden;
 }
 h4.post-title a {
 	color: #bfc3cf;

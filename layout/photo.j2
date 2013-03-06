@@ -17,7 +17,7 @@
 
 {% set index = main_node.walk_resources_sorted_by_time().index( resource ) %}
 {% if index > 0 %}
-	{% set prev_resource = main_node.walk_resources_sorted_by_time()[index-1] %}
+	{% set prev_resource = main_node.walk_resources_sorted_by_time()[index+1] %}
 	{% if prev_resource.node != node %}
 			{% set prev_resource = None %}
 	{% endif %}
@@ -34,7 +34,7 @@
 
 
 {% if main_node.walk_resources_sorted_by_time() | count > index %}
-	{% set next_resource = main_node.walk_resources_sorted_by_time()[index+1] %}
+	{% set next_resource = main_node.walk_resources_sorted_by_time()[index-1] %}
 		{% if next_resource.node != node %}
 			{% set next_resource = None %}
 		{% endif %}

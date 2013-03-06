@@ -24,7 +24,7 @@
 
 
 <ul class="photo_listing clear">
-{% for res in resource.node.walk_resources_sorted_by_time() %}
+{% for res in resource.node.walk_resources_sorted_by_time() | reverse %}
 {% if res.node == node %}
 <li>
     {{ render_photo_excerpt(res) }}

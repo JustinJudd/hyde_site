@@ -251,6 +251,8 @@ class AlbumPanel(wx.Panel):
 
     def slide_photo(self,change):
         self.save_photo_data()
+        #set update photo image will select item in listcontrol
+        self.manually_set_item_state = True
         self.update_photo_image( (self.photo_index + change) % len(self.parent.album.photos) )
 
     def album_changed(self):
@@ -307,11 +309,11 @@ class AlbumPanel(wx.Panel):
             self.tag_list_box.Append(t)
 
         #this triggers onItemSelected in list control, which triggers this, leave as last step
-        self.manually_set_item_state = True
         self.photos_list_ctrl.SetItemState( index, wx.LIST_STATE_FOCUSED|wx.LIST_STATE_SELECTED, wx.LIST_STATE_FOCUSED|wx.LIST_STATE_SELECTED )
         
 
     def onItemSelected(self, event):
+        print "Item Selected"
         if self.manually_set_item_state:
             self.manually_set_item_state = False
             return
@@ -351,8 +353,9 @@ class AlbumPanel(wx.Panel):
         if photo_summary:
             photo.set_summary(photo_summary)
         photo.add_tags( [self.tag_list_box.GetString(x) for x in range(self.tag_list_box.GetCount() ) ] )
-        print photo
-        print photo.get_tags()
+        #print photo
+        #print photo.get_tags()
+        print "Saving photo %s" % photo
         #save photo description
 
 # end of class AlbumPanel
@@ -601,7 +604,10 @@ class Photo:
     def set_location(self, location):
         self.location = location
         self.img = PIL.Image.open(location)
-        dt = datetime.strptime( self.get_exif(self.img)['DateTime'], '%Y:%m:%d %H:%M:%S' )
+        try:
+            dt = datetime.strptime( self.get_exif(self.img)['DateTime'], '%Y:%m:%d %H:%M:%S' )
+        except:
+            dt = datetime.fromtimestamp( os.path.getmtime(location) )
         print location, dt
         self.timestamp = dt.strftime( '%Y-%m-%d %H:%M:%S' )
         print self.timestamp
@@ -690,9 +696,10 @@ class Photo:
     def get_exif(self, img):
         ret = {}
         info = img._getexif()
-        for tag, value in info.items():
-            decoded = TAGS.get(tag, tag)
-            ret[decoded] = value
+        if info:
+            for tag, value in info.items():
+                decoded = TAGS.get(tag, tag)
+                ret[decoded] = value
         return ret
 
     def get_high_res(self):

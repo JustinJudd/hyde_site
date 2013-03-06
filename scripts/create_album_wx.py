@@ -35,7 +35,6 @@ title: $photo_name
 description: >
     $photo_summary
 created: !!timestamp '$photo_timestamp'
-tags:
 $photo_tags
 image: $image_name
 ---
@@ -135,6 +134,9 @@ class AlbumCreator(wx.Frame):
         if album:
             self.album = album
         self.album_panel.album_changed()
+
+    def update_ui(self):
+        wx.Yield()
 
 # end of class AlbumCreator
 
@@ -597,7 +599,7 @@ class Photo:
         self.tags = []
         if location:
             self.set_location(location)
-        self.set_name(name)
+        self.set_name(name.strip())
         self.album = album       
         
 
@@ -626,7 +628,7 @@ class Photo:
 
     def set_name(self, name):
         self.name = name
-        self.set_webname( name.replace(' ', '_').lower() )
+        self.set_webname( name.replace(' ', '_') )
 
     def get_name(self):
         return self.name
@@ -654,6 +656,7 @@ class Photo:
 
     def add_tags(self, tags):
         self.tags.extend(tags)
+        self.tags = list( set( self.tags ) )
 
     def get_tags(self):
         return self.tags
@@ -680,8 +683,11 @@ class Photo:
             self.webname = self.name.replace(' ', '_').lower()
         h_name = self.webname + '_high.jpg'
         w_name = self.webname + '_web.jpg'
-        photo_image = '[![%s]([[!!%s]])]([[!!%s]])' % (self.name, os.path.join(gallery_dir,self.album.get_webname(), w_name), os.path.join(gallery_dir,self.album.get_webname(), h_name)) # this is the watermarked image with the link to the hd image
-        tag_string = '\n'.join( set( [ '    -'+x for x in self.tags ]  ) )
+        photo_image = '[![%s]([[!!%s]])]([[!!%s]])' % (self.name, os.path.join(self.album.gallery_webpath, w_name), os.path.join(self.album.gallery_webpath, h_name)) # this is the watermarked image with the link to the hd image
+        if self.tags:
+            tag_string = 'tags:\n' + '\n'.join( set( [ '    - '+x for x in self.tags ]  ) )
+        else:
+            tag_string = ""
         d= {'photo_name':self.name, 'photo_summary': self.summary, 'photo_description': self.description, 'photo_timestamp': self.timestamp, 'image_name': self.webname, 'photo_image':photo_image, 'photo_tags':tag_string }
         #print photo_template.substitute(d)
         f = open(os.path.join(self.album.location,  self.webname + '.html'), 'w')
@@ -741,19 +747,20 @@ class Album:
     def __init__(self, frame=None, name="", location="", parent=""):
         self.photos = []
         self.frame = frame
-        self.set_name(name)   
+        self.set_name(name.strip())   
         self.cover = 0
         self.description = ""
         if parent:
-            self.parent = parent.replace(' ', '_').lower()
+            self.parent = parent.strip().replace(' ', '_')
         else:
             self.parent = ""
         self.location = os.path.join(location, gallery_dir, self.parent, self.webname)
         self.media_location = os.path.join(location, media_dir, gallery_dir, self.parent, self.webname )
+        self.gallery_webpath = os.path.join(gallery_dir, self.parent, self.webname)
 
     def set_name(self, name):
         self.name = name
-        self.set_webname( name.replace(' ', '_').lower() )
+        self.set_webname( name.replace(' ', '_') )
 
     def get_name(self):
         return self.name
@@ -799,17 +806,18 @@ class Album:
         f.write( album_string )
         f.close()
 
-        wx.Yield()
+        frame.update_ui()
 
         f = open( os.path.join( self.location, 'meta.yaml') , 'w')
         f.write( meta_template.substitute(d) )
         f.close()
 
-        wx.Yield()
+        frame.update_ui()
 
         for p in self.photos:
             p.generate()
-            wx.Yield()
+            print "update ProgressDialog"
+            frame.update_ui()
 
         dlg.Destroy()
         

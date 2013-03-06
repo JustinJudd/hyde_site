@@ -2,26 +2,10 @@
 
 {% block main -%}
 <nav class="post_nav">
-{% if 'photos' in resource.url %}
-	{% set main_node = site.content.node_from_relative_path('photos/') %}
-{% elif 'portfolio' in resource.url %}
-	{% set main_node = site.content.node_from_relative_path('portfolio/') %}
-{% elif 'blog' in resource.url %}
-	{% set main_node = site.content.node_from_relative_path('blog/') %}
-{% else %}
-	{% set main_node = node %}
-{% endif %}
 
-
-
-
-{% set index = main_node.walk_resources_sorted_by_time().index( resource ) %}
-{% if index > 0 %}
-	{% set prev_resource = main_node.walk_resources_sorted_by_time()[index+1] %}
-	{% if prev_resource.node != node %}
-			{% set prev_resource = None %}
-	{% endif %}
-	
+{% set index = node.walk_resources_sorted_by_time().index( resource ) %}
+{% if node.walk_resources_sorted_by_time() | count > index %}
+	{% set prev_resource = node.walk_resources_sorted_by_time()[index+1] %}
 {% endif %}
 <a class="prev{{' disabled' if not prev_resource }}"
     title="{{ prev_resource }}"
@@ -33,12 +17,10 @@
 <a class="backlink" href="{{ content_url(resource.node.url) }}">{{ node.get_resource('index.html').meta.title }} </a>
 
 
-{% if main_node.walk_resources_sorted_by_time() | count > index %}
-	{% set next_resource = main_node.walk_resources_sorted_by_time()[index-1] %}
-		{% if next_resource.node != node %}
-			{% set next_resource = None %}
-		{% endif %}
-	
+
+
+{% if index > 0 %}
+	{% set next_resource = node.walk_resources_sorted_by_time()[index-1] %}
 {% endif %}
 <a class="next{{' disabled' if not next_resource }}"
     title="{{ next_resource.meta.title }}"

@@ -3,33 +3,35 @@
 {% block main -%}
 <nav class="post_nav">
 
-{% set index = node.walk_resources_sorted_by_time().index( resource ) %}
-{% if node.walk_resources_sorted_by_time() | count > index %}
-	{% set prev_resource = node.walk_resources_sorted_by_time()[index+1] %}
+{% if resource in node.walk_resources_sorted_by_time() %}
+	{% set index = node.walk_resources_sorted_by_time().index( resource ) %}
+	{% if node.walk_resources_sorted_by_time() | count > index %}
+		{% set prev_resource = node.walk_resources_sorted_by_time()[index+1] %}
+	{% endif %}
+	<a class="prev{{' disabled' if not prev_resource }}"
+		title="{{ prev_resource }}"
+		{% if prev_resource %}
+		href="{{ content_url(prev_resource.url) }}"{% endif %}>
+		{{ prev_resource.meta.title }}
+	</a>
+
+	<a class="backlink" href="{{ content_url(resource.node.url) }}">{{ node.get_resource('index.html').meta.title }} </a>
+
+
+
+
+	{% if index > 0 %}
+		{% set next_resource = node.walk_resources_sorted_by_time()[index-1] %}
+	{% endif %}
+	<a class="next{{' disabled' if not next_resource }}"
+		title="{{ next_resource.meta.title }}"
+		{% if next_resource %}
+		href="{{ content_url(next_resource.url) }}"{% endif %}>
+		{{ next_resource.meta.title }}
+	</a>
+
+	<br>
 {% endif %}
-<a class="prev{{' disabled' if not prev_resource }}"
-    title="{{ prev_resource }}"
-    {% if prev_resource %}
-    href="{{ content_url(prev_resource.url) }}"{% endif %}>
-    {{ prev_resource.meta.title }}
-</a>
-
-<a class="backlink" href="{{ content_url(resource.node.url) }}">{{ node.get_resource('index.html').meta.title }} </a>
-
-
-
-
-{% if index > 0 %}
-	{% set next_resource = node.walk_resources_sorted_by_time()[index-1] %}
-{% endif %}
-<a class="next{{' disabled' if not next_resource }}"
-    title="{{ next_resource.meta.title }}"
-    {% if next_resource %}
-    href="{{ content_url(next_resource.url) }}"{% endif %}>
-    {{ next_resource.meta.title }}
-</a>
-
-<br>
 </nav>
 
 <article class="post">

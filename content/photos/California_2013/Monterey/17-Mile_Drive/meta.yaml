@@ -1,0 +1,8 @@
+extends: photo.j2
+default_block: post
+listable: true
+album_cover: Perfect_Beach
+title: 17-Mile Drive
+description: >
+    17-Mile Drive is toll road that lies along the coast and gives you access to Pebble Beach, as well as some other beautiful views.
+created: !!timestamp 2013-01-20 00:00:00

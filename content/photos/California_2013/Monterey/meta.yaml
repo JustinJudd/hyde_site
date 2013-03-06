@@ -1,0 +1,8 @@
+extends: photo.j2
+default_block: post
+listable: true
+album_cover: Monterey_View
+title: Monterey
+description: >
+    These pictures are from Monterey, CA, where I had classes.
+created: !!timestamp 2013-01-20 00:00:00

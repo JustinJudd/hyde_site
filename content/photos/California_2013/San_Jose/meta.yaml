@@ -1,0 +1,7 @@
+extends: photo.j2
+default_block: post
+listable: true
+album_cover: Tesla_Model_S
+title: San Jose
+description: >
+    I spent the last night of my trip in San Jose

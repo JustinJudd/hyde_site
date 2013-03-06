@@ -1,0 +1,7 @@
+extends: photo.j2
+default_block: post
+listable: true
+album_cover: Google_Campus_-_Android
+title: Google
+description: >
+    With my one night in San Jose, I really wanted to check out Google's campus. It was a little darker than I wanted by the time I got there, but it was still awesome.

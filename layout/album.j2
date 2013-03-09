@@ -2,15 +2,21 @@
 {% from "photo_macros.j2" import render_photo_excerpt with context  %}
 {% block main %}
 
-<nav class="post_nav">
+<nav class="post_nav row-fluid">
 
-{% set parent_node = node.parent %}
+{% set paths = [] %}
+{% for n in [node] recursive %} 
+	{% if 'photo' in n.parent.url %} {{ loop([n.parent]) }} {% do paths.append(n) %}{% endif %}
+{% endfor %}
 
-<a class="prev disabled"></a>
+<ul class="breadcrumb pagination-centered">
+	<li><a href="{{ content_url( 'photos')  }}">Photos</a><span class="divider">/</span></li>
+	{% for b in paths %}
+		<li {% if loop.last %}class="active">{{ b.meta.title }}{% else %}><a href="{{ content_url( b.url)  }}">{{ b.meta.title }}</a>{% if not loop.last %}<span class="divider">/</span>{% endif %}{% endif %}</li>
+	{% endfor %}
 
-<a class="backlink" href="{{ content_url(parent_node.url) }}">{{ parent_node.get_resource('index.html').meta.title }} </a>
+</ul>
 
-<a class="next disabled"></a>
 
 <br>
 </nav>
@@ -18,18 +24,25 @@
 
 {% from "photo_macros.j2" import get_albums with context  %}
 
-<ul class="album_listing clear">
-{{ get_albums(node) }}
-</ul>
+{{ get_albums(node, "span6") }}
 
 
-<ul class="photo_listing clear">
+
+{% set count = 0 %}
+{% set total_count = resource.node.walk_resources_sorted_by_time() | count %}
+<div class="row-fluid">
 {% for res in resource.node.walk_resources_sorted_by_time() | reverse %}
-{% if res.node == node %}
-<li>
-    {{ render_photo_excerpt(res) }}
-</li>
-{% endif %}
+		{% if res.node == node %}
+		{% set count = count +1 %}
+		<div class="span4">
+			{{ render_photo_excerpt(res) }}
+		</div>
+		{% endif %}
+	{% if count % 3 == 0 and count != total_count %}
+	</div>
+	<div class="row-fluid">
+	{% endif %}
 {% endfor %}
-</ul>
+</div>
+
 {% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base_with_sidebar.j2" %}
+
+{% block main -%}
+<div class="alert alert-block">
+{% filter markdown|typogrify -%}
+{% mark error -%}
+{% block error -%}{%- endblock %}
+{%- endmark %}
+{%- endfilter %}
+</div>
+
+{%- endblock %}

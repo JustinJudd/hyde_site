@@ -4,19 +4,34 @@
 <section class="archives">
 <header id="introduction" class="contain">
 		<hgroup>
-		<h1 id="page-title"><a href="./">Tag</a></h1>
+		<h1 id="page-title"><a href="./"><i class="icon-tags"></i>Tag</a></h1>
 		<h2 id="page-tagline">All photos tagged with {{ tag.name }}</h2>
 		</hgroup>
 </header>
-<ul class="photo_listing posts clear">
+
 {% from "photo_macros.j2" import render_photo_excerpt with context  %}
-{% for resource in walker() -%}
-{% if source.url in resource.node.url %}
-<li>
-    {{ render_photo_excerpt(resource, class="tags clear") }}
-</li>
-{% endif %}
-{%- endfor %}
-</ul>
+
+{% set valid = [] %}
+{% for resource in walker()  %}
+	{% if source.url in resource.node.url %}
+		{% if valid.append(resource) %}{% endif %}
+	{% endif %}
+{% endfor %}
+
+{% set count = 0 %}
+{% set total_count = valid | count %}
+<div class="row-fluid">
+{% for resource in valid  %}
+		{% set count = count +1 %}
+		<div class="span4">
+			{{ render_photo_excerpt(resource) }}
+		</div>
+	{% if count % 3 == 0 and count != total_count %}
+	</div>
+	<div class="row-fluid">
+	{% endif %}
+{% endfor %}
+</div>
+
 </section>
 {% endblock %}

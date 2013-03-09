@@ -6,6 +6,7 @@ description: Home page
 
 
 {% block main %}
+<div class="hero-unit">
 {% from "post_macros.j2" import render_excerpt with context %}
 <article class="blog_excerpt">
 {% set latest = site.content.node_from_relative_path('blog/').walk_resources_sorted_by_time()|first %}
@@ -13,9 +14,10 @@ description: Home page
 {% if latest -%}
 {{ render_excerpt(latest, 'post') }}
 
-<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+<span class="excerpt_more"><a href="{{ content_url(latest.url) }}" class="btn btn-primary btn-large">Full Story &raquo;</a></span>
 
 {%- endif %}
+</div>
 
 {% endblock main %}
 

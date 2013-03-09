@@ -10,7 +10,6 @@
 		</hgroup>
 </header>
 
-<ul class="listing posts clear">
  {% for tagname, tag in site.tagger.tags.to_dict().iteritems() -%}
 		{% set exists = [] %}
 		{% for res in tag.resources %}
@@ -20,7 +19,8 @@
 			{% endif %}
 		{% endfor %}
 		{% if exists %}
-			<li> <article>
+			<div class="well">
+			<article>
 			<div class="title">
    			<h2 class="post-title"><a title="{{ tagname }}" href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">{{ tagname }}</a>  </h2> </div> <div class="post-content">
 			{% set found = [] %}
@@ -34,11 +34,10 @@
 				&nbsp;&nbsp;&nbsp;<a href="{{ content_url(res.url) }}">{{ res.meta.title }} </a><br />
 			{% endfor %}
 			{% if found|count > 3 %}
-			&nbsp;&nbsp;&nbsp;...
-			<br /><span class="excerpt_more"><a href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">more &raquo;</a></span>
+			<span class="excerpt_more"><a class="btn" href="{{ content_url('/' + site_section + '/tags/{0}'.format(tagname)) }}">More &raquo;</a></span>
 			{% endif %}
 			</div> </article>
-		</li>
+			</div>
 		{% endif %}
   {%- endfor %}
 {% endblock %}

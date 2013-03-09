@@ -1,21 +1,45 @@
 {% extends "base_with_sidebar.j2" %}
 
 {% block main -%}
-<nav class="post_nav">
+<nav class="post_nav row-fluid">
+
+{% set paths = [resource] %}
+{% for n in [node] recursive %} 
+	{% if 'photo' in n.parent.url %} {% do paths.append(n) %} {{ loop([n.parent]) }} {% endif %}
+{% endfor %}
+
+
+<ul class="breadcrumb pagination-centered">
+	<li><a href="{{ content_url( 'photos')  }}">Photos</a><span class="divider">/</span></li>
+	{% for b in paths|reverse %}
+		<li {% if loop.last %}class="active">{{ b.meta.title }}{% else %}><a href="{{ content_url( b.url)  }}">{{ b.meta.title }}</a>{% if not loop.last %}<span class="divider">/</span>{% endif %}{% endif %}</li>
+	{% endfor %}
+
+</ul>
+
+<ul class="pager">
 
 {% if resource in node.walk_resources_sorted_by_time() %}
 	{% set index = node.walk_resources_sorted_by_time().index( resource ) %}
 	{% if node.walk_resources_sorted_by_time() | count > index %}
 		{% set prev_resource = node.walk_resources_sorted_by_time()[index+1] %}
 	{% endif %}
+
+	<li class="previous {{' disabled' if not prev_resource }}">
 	<a class="prev{{' disabled' if not prev_resource }}"
 		title="{{ prev_resource }}"
 		{% if prev_resource %}
 		href="{{ content_url(prev_resource.url) }}"{% endif %}>
-		{{ prev_resource.meta.title }}
+		<i class="icon-arrow-left"></i> {{ prev_resource.meta.title }}
 	</a>
+	</li>
 
-	<a class="backlink" href="{{ content_url(resource.node.url) }}">{{ node.get_resource('index.html').meta.title }} </a>
+{#
+	<li>
+	<a class="backlink" href="{{ content_url(resource.node.url) }}"><i class="icon-arrow-up"></i> {{ node.get_resource('index.html').meta.title }} <i class="icon-arrow-up"></i></a>
+	</li>
+#}
+
 
 
 
@@ -23,12 +47,15 @@
 	{% if index > 0 %}
 		{% set next_resource = node.walk_resources_sorted_by_time()[index-1] %}
 	{% endif %}
+	<li class="next {{' disabled' if not next_resource }}">
 	<a class="next{{' disabled' if not next_resource }}"
 		title="{{ next_resource.meta.title }}"
 		{% if next_resource %}
 		href="{{ content_url(next_resource.url) }}"{% endif %}>
-		{{ next_resource.meta.title }}
+		{{ next_resource.meta.title }} <i class="icon-arrow-right"></i>
 	</a>
+	</li>
+</ul>
 
 	<br>
 {% endif %}
@@ -51,7 +78,8 @@
 
 	<div class="post-info">
 	{% if resource.meta.tags %}
-	<ul class="tags clear">
+	<ul class="tags clear inline unstyled nav nav-pills">
+	<li><a href="{{ content_url( resource.url.split('/')[0] + '/tags/' ) }}"><i class="icon-tags"></i></a></li>
 	{% for tag in resource.meta.tags %}
 	<li>
 		<a class="small" href="{{ content_url('photos/tags/'~tag~'.html') }}">

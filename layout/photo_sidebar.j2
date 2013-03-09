@@ -1,12 +1,9 @@
 
-  <div id="sidebar" role="complementary">
-    <ul class="widgets">
-			<!-- Image Feed -->
-			{% from "photo_sidebar_macros.j2" import get_photos with context %}
-			{{ get_photos(resource, 3) }}
+<!-- Image Feed -->
+{% from "photo_sidebar_macros.j2" import get_photos with context %}
+{{ get_photos(resource, 3) }}
 
-		{% from "sidebar_macros.j2" import get_adsense with context %}
-		{{ get_adsense() }}
-	</ul>
-  </div>
+{% from "sidebar_macros.j2" import get_adsense with context %}
+{{ get_adsense() }}
+
 

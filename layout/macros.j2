@@ -1,32 +1,32 @@
 {% macro render_nav(menu, cls=None) -%}
 {% if menu -%}
-  <p class="nav-extra">
-     <a href="/blog/atom.xml" class="nav-extra" title="View RSS Feed"></a><a href="http://twitter.com/Justin_Judd" target="_blank" class="nav-extra" style="background-position:-64px top" title="Follow me on Twitter"></a> <a href="http://www.facebook.com/JustinJudd" target="_blank" class="nav-extra" style="background-position:-192px top" title="Find me on Facebook"></a> <a href="http://www.linkedin.com/pub/justin-judd/14/5a6/381"  rel="me" target="_blank" class="nav-extra" style="background-position:-320px top" title="Find me on LinkedIn"></a> <a href="https://plus.google.com/114337450100633107219/"  rel="me" target="_blank" class="nav-extra" style="background-position:-128px top" title="Find me on Google"></a>
-  </p>
-<nav {{'class='~cls if cls }}>
-    <ul>
-        {% for item in menu -%}
-        {% set active = False -%}
-        {% if item.type == 'page' -%}
-            {% set active = (resource.url ==
-                site.content.resource_from_relative_path(item.url).url) -%}
-        {% else -%}
-            {% set active = (site.content.node_from_relative_path(item.url).url in node.url) -%}
-        {%- endif %}
-        {#  {% set classes = ['button', 'white'] -%} #}
-        {% set classes = [] -%}
-        {% do classes.append('active') if active -%}
-        {% do classes.append(item.css_class) if item.css_class -%}
-        <li>
-            <a title="{{ item.description }}"
-                class="{{ classes|join(' ') }}"
-                href="{{ content_url(item.url) }}">
-                {{ item.name }}
-            </a>
-        </li>
-        {%- endfor %}
-    </ul>
-</nav>
+<div class="navbar  navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="#">Justin Judd</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+			{% for item in menu %}
+				<li {% if item.url == '/' %} {% if resource.url == 'index.html' %}class="active" {% endif %} {% elif item.url.strip('/') in resource.url %} class="active"{% endif %}><a href="{{ item.url }}">{{ item.name }}</a></li>
+			{% endfor %}
+
+            </ul>
+			<ul class="nav pull-right">
+			<li><a href="https://plus.google.com/114337450100633107219/"><i class="icon-google-plus"></i></a></li>
+			<li><a href="http://www.linkedin.com/pub/justin-judd/14/5a6/381"><i class="icon-linkedin"></i></a></li>
+			<li><a href="http://www.facebook.com/JustinJudd"><i class="icon-facebook"></i></a></li>
+			<li><a href="http://twitter.com/Justin_Judd"><i class="icon-twitter"></i></a></li>
+			<li><a href="http://dev.justinjudd.org/blog/atom.xml"><i class="icon-rss"></i></a></li>
+			</ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 {%- endif %}
 {%- endmacro %}
 

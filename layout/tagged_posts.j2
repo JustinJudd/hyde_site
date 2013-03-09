@@ -4,17 +4,16 @@
 <section class="archives">
 <header id="introduction" class="contain">
 		<hgroup>
-		<h1 id="page-title"><a href="./">Tag</a></h1>
+		<h1 id="page-title"><a href="./"><i class="icon-tags"></i>Tag</a></h1>
 		<h2 id="page-tagline">All {% if 'blog' in resource.url %}posts {% else %} portfolio items {% endif %} tagged with {{ tag.name }}</h2>
 		</hgroup>
 </header>
-<ul class="listing posts clear">
 {% from "post_macros.j2" import render_post with context  %}
 {% for resource in walker() -%}
 {% if source.url in resource.node.url %}
-<li>
+<div class="well">
     {{ render_post(resource, class="tags clear") }}
-</li>
+</div>
 {% endif %}
 {%- endfor %}
 </ul>

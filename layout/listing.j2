@@ -1,40 +1,90 @@
 {% extends "base_with_sidebar.j2" %}
 {% from "post_macros.j2" import render_excerpt with context  %}
 {% block main %}
-<ul class="listing clear">
-{#
-{% for res in resource.node.walk_resources_sorted_by_time() %}
-<li>
-    {{ render_excerpt(res) }}
-<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
-</li>
-{% endfor %}
-#}
 
 {% if resource.page %}
 {% for res in resource.page.posts %}
-<li>
+<div class="well">
 <article {{'class='~class if class }}>
     {{ render_excerpt(res) }}
-<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+<span class="excerpt_more"><a class="btn" href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
 </article>
-</li>
+</div>
 {% endfor %}
-</ul>
 
+
+{{ resource.page.previous }}
+{{ resource.page.next }}
+{#
 <nav class="post_nav">
-{% if resource.page.previous %}<a class="prev" href="{{ content_url(resource.page.previous.resource.url) }}">Previous Page</a>{% endif %}
-{% if resource.page.next %}<a class="next" href="{{ content_url(resource.page.next.resource.url) }}">Next Page</a>{% endif %}
+{% if resource.page.previous %}<a class="prev" href="{{ content_url(resource.page.previous.resource.url) }}"><i class="icon-arrow-left"></i> Previous Page</a>{% endif %}
+{% if resource.page.next %}<a class="next" href="{{ content_url(resource.page.next.resource.url) }}">Next Page <i class="icon-arrow-right"></i></a>{% endif %}
 </nav>
+#}
+
+{% set first_page = [] %}
+{% for f in [resource] recursive %}
+	{% if f.page.previous %} {{ loop([f.page.previous.resource]) }} {% else %} {% do first_page.append(f) %}{% endif %}
+	
+{% endfor %}
+{% set first_page = first_page[0] %}
+
+
+
+{% set all_pages = [] %}
+{% for f in [first_page] recursive %}
+	{% do all_pages.append(f) %}
+	{% if f.page.next %} {{ loop([f.page.next.resource]) }}{% endif %}
+	
+{% endfor %}
+
+
+<div class="pagination pagination-centered pagination-large">
+  <ul>
+	
+	{% for p in all_pages %}
+		{% if loop.first %}
+		<li class="{{' disabled' if not resource.page.previous}}"><a href="{{ content_url(p.url) }}">&laquo;</a></li>
+		{% endif %}
+		<li class="{{' active' if resource.page.number == loop.index }}"><a href="{{ content_url(p.url) }}">{{loop.index}}</a></li>
+		{% if loop.last %}
+		<li class="{{' disabled' if not resource.page.next}}"><a href="{{ content_url(p.url) }}">&raquo;</a></li>
+		{% endif %}
+	{% endfor %}
+  </ul>
+</div>
+
+{#
+<br />
+FIRST_PAGE: {{ first_page[0].__dict__ }}
+#}
+
+{#
+{% set last = resource.node.walk_resources_sorted_by_time() |count / first_page.meta.paginator.size | int  %}
+{% set last = last+1 if resource.node.walk_resources_sorted_by_time()|count % first_page.meta.paginator.size != 0 %}
+{% set last = last | int %}
+
+<div class="pagination">
+  <ul>
+	<li class="{{' disabled' if not resource.page.previous}}"><a href="{{ content_url(resource.page.previous.resource.url) }}">&laquo;</a></li>
+	{% for i in range(last) %}
+	{% if loop.first %} {% set url= '' %} {% else %} {% set url = './page' + (i+1)|string %} {% endif %}
+	<li class="{{' active' if resource.page.number == i+1 }}"><a href="{{ url }}">{{i+1}}</a></li>
+	{% endfor %}
+	<li class="{{' disabled' if not resource.page.next}}"><a href="{{ content_url(resource.page.next.resource.url) }}">&raquo;</a></li>
+  </ul>
+</div>
+#}
+
 {% else %}
 
 {% for res in resource.node.walk_resources_sorted_by_time() %}
-<li>
+<div class="well">
 <article {{'class='~class if class }}>
     {{ render_excerpt(res) }}
-<span class="excerpt_more"><a href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
+<span class="excerpt_more"><a class="btn" href="{{ content_url(res.url) }}">Full Story &raquo;</a></span>
 </article>
-</li>
+</div>
 {% endfor %}
 {% endif %}
 

@@ -1,116 +1,83 @@
-<!doctype html>
-<!-- https://github.com/paulirish/html5-boilerplate/blob/master/index.html -->
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
-<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
-<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
-<head>
-  {% block starthead %}{% endblock starthead %}
-  <meta charset="{{ resource.meta.charset }}">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	{% block starthead %}{% endblock starthead %}
+    <meta charset="{{ resource.meta.charset }}">
+    <title>{% block title %}{{ resource.meta.title }}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ resource.meta.description }}">
+    <meta name="author" content="{{ resource.meta.author }}">
 
-  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-       Remove this if you use the .htaccess -->
-  <meta http-equiv="X-UA-Compatible" content="{{ resource.meta.compatibility }}">
+    <!-- Le styles -->
+    <link href="{{ media_url('css/bootstrap.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ media_url('css/font-awesome.min.css') }}">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
 
-  <!-- encoding must be specified within the first 512 bytes
-        www.whatwg.org/specs/web-apps/current-work/multipage/semantics.html#charset -->
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+    </style>
+    <link href="{{ media_url('css/bootstrap-responsive.min.css') }} " rel="stylesheet">
 
-  <!-- meta element for compatibility mode needs to be before
-        all elements except title & meta
-        msdn.microsoft.com/en-us/library/cc288325(VS.85).aspx -->
-  <!-- Chrome Frame is only invoked if meta element for
-        compatibility mode is within the first 1K bytes
-        code.google.com/p/chromium/issues/detail?id=23003 -->
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="{{ media_url('js/html5shiv.js') }}"></script>
+    <![endif]-->
 
-  <title>{% block title %}{{ resource.meta.title }}{% endblock %}</title>
-  <meta name="description" content="{{ resource.meta.description }}">
-  <meta name="author" content="{{ resource.meta.author }}">
 
-  <!--  Mobile viewport optimized: j.mp/bplateviewport -->
-  <meta name="viewport" content="{{ resource.meta.viewport }}">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ media_url('ico/apple-touch-icon-144-precomposed.png') }}">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ media_url('ico/apple-touch-icon-114-precomposed.png') }}">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ media_url('ico/apple-touch-icon-72-precomposed.png') }}">
+                    <link rel="apple-touch-icon-precomposed" href="{{ media_url('ico/apple-touch-icon-57-precomposed.png') }}">
+                                   <link rel="shortcut icon" href="{{ media_url('ico/favicon.png') }}">
+  </head>
 
-  {% block favicons %}
-  <!-- Place favicon.ico & apple-touch-icon.png
-        in the root of your domain and delete these references -->
-  <link rel="shortcut icon" href="{{ media_url('/favicon.ico') }}">
-  <link rel="apple-touch-icon" href="{{ media_url('/apple-touch-icon.png') }}">
-  {% endblock favicons %}
+  <body>
 
-  {% block css %}
-  <link rel="stylesheet" href="{{ media_url('css/site.css') }}">
-  <link rel="stylesheet" href="{{ media_url('css/syntax.css') }}">
-  {% endblock css %}
-
-  {% block headjs %}
-  <!-- All JavaScript at the bottom, except for Modernizr which
-        enables HTML5 elements & feature detects -->
-    <script src="{{ media_url('js/libs/modernizr-1.7.min.js') }}"></script>
-  {% endblock headjs %}
-  {% block endhead %}{% endblock endhead %}
-</head>
-<body id="{{ resource.meta.id if resource.meta.id else resource.slug }}">
-  {% block page %}
-    <div id="page">
-    {% block header -%}
-      <header class="banner clearfix">
-        <div id="site-title">
-          <h1 id="logo"><a href="/" rel="author">{{ site.meta.site_title }}</a></h1>
-          <h3 class="headline">{{ site.meta.site_description }}</h3>
-        </div>      
-      {% block nav %}
-        <div id="nav">
-          {% from "macros.j2" import render_nav with context %}
+	{% block nav %}
+	{% from "macros.j2" import render_nav with context %}
           {{ render_nav(menu, 'main_nav') }}
-        </div>
-      {% endblock nav %}
-      </header>
-    {%- endblock header %}
-          
-    <div id="all-content">
-    {% block content %}
-      <div id="content">
-		<div id="primary-content" role="main">
-          <section class="content">
-            {% block main %}
-            {% endblock main %}
-		</div>
-            <div class="clear"></div>
-          </section>
-      </div>
-    {% endblock content %}
-    </div>
-    {% block footer %}
-      <footer>
-		<a href="/privacy-policy">Privacy Policy</a>
-	    &copy;2012 Justin Judd
+	{% endblock nav %}
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+		{% block content %}
+        <div class="span12">
+			{% block main %}
+			{% endblock main %}
+        </div><!--/span-->
+	  {% endblock content %}
+      </div><!--/row-->
+
+      <hr>
+
+      <footer class="text-center">
+        <p><a href="/privacy-policy">Privacy Policy</a>
+	    &copy;2012 Justin Judd</p>
       </footer>
-    {% endblock footer %}
-   </div>
-  </div> <!--! end of #page -->
-  
-  {% endblock page%}
-  {% block js %}
-  <!-- Javascript at the bottom for fast page loading -->
-  {% block jquery %}
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js"></script>
-  <script>window.jQuery || document.write('<script src="js/libs/jquery-1.5.1.min.js">\x3C/script>')</script>
-  {% endblock jquery %}
 
-  {% block scripts %}
-  {% endblock scripts %}
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{{ media_url('js/libs/jquery-1.9.1.min.js') }}"></script>
+    <script src="{{ media_url('js/bootstrap.min.js') }}"></script>
 
 
-  <!--[if lt IE 7 ]>
-    <script src="js/libs/dd_belatedpng.js"></script>
-    <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
-  <![endif]-->
-
-  {% block analytics %}
-  {% include "analytics.j2" %}
-  {% endblock analytics %}
-
-  {% endblock js %}
-</body>
+  </body>
 </html>
+

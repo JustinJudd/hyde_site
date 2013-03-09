@@ -1,22 +1,16 @@
 {% macro get_blog_posts(num) -%}
-<li class="widget">
-	<div class="clearfix">
-	<h3 class="widget_title"><span><a href="/blog/">Recent Posts</a></span></h3>
-	<div class="block-div"></div>
-	<div class="block-div-arrow"></div>
-	</div>
-	<div id="blog-feed-content" class="widget_body">
-		<ul class="widget_listing clear">
-			{% for res in site.content.node_from_relative_path('blog/').walk_resources_sorted_by_time()[:num] %}
+<div class="well sidebar-nav">
+	<ul class="nav nav-list">
+	  <li class="nav-header"><a href="/blog">Recent Posts</a></li>
+		{% for res in site.content.node_from_relative_path('blog/').walk_resources_sorted_by_time()[:num] %}
 				<li>
 					{# {% refer to res.url as post %} #}
 					<a href="{{ content_url(res.url) }}">{{ res.meta.title }}</a>
 					{# {{ post.image|markdown|typogrify }} #}
 				</li>
 		{% endfor %}
-		</ul>
-	</div>
-</li>
+	</ul>
+</div><!--/.well -->
 {% endmacro %}
 
 
@@ -29,21 +23,11 @@
 		
 {% set this_date =  time_now %}
 
+<div class="well sidebar-nav">
+<ul class="nav nav-list">
+  <li class="nav-header">Archive</li>
 
-
-
-<li class="widget">
-	<div class="clearfix">
-	<h3 class="widget_title"><span>Archive</span></h3>
-	<div class="block-div"></div>
-	<div class="block-div-arrow"></div>
-	</div>
-
-	<div id="blog-feed-content" class="widget_body">
-		<ul class="widget_listing clear">
-			
-
-			{% if "index" in article %}
+	{% if "index" in article %}
 				{% set article = None %}
 			{% endif %}
 			{% if "index" in month %}
@@ -76,14 +60,14 @@
 					{% if item_count %}
 						{% set this_date = this_date.replace(year= n.url.split('/')[2]|int ) %}
 						{% if n.url[1:] in resource.url %}
-						<li> <a href="{{ n.url }}"><b>{{ this_date.strftime('%Y') }} ({{item_count}})</b></a> </li>
-						<ul>
+						<li class="active"> <a href="{{ n.url }}">{{ this_date.strftime('%Y') }} ({{item_count}})</a> </li>
+						<ul class="nav nav-list">
 						{% for n_month in resource.node.parent.child_nodes | sort(attribute='source.name') | reverse %}
 							{% set item_count =  n_month.walk_resources_sorted_by_time() | count %}
 							{% if item_count %}
 								{% set this_date = this_date.replace(month= n_month.url.split('/')[3]|int ) %}
 								{% if n_month.url[1:] in resource.url %}
-									<li> <a href="{{ n_month.url }}"><b>{{ this_date.strftime('%B %Y') }} ({{item_count}})</b></a> </li>
+									<li class="active"> <a href="{{ n_month.url }}">{{ this_date.strftime('%B %Y') }} ({{item_count}})</a> </li>
 								{% else %}
 									<li> <a href="{{ n_month.url }}">{{ this_date.strftime('%B %Y') }} ({{item_count}})</a> </li>
 								{% endif %}
@@ -105,8 +89,8 @@
 						{% set this_date = this_date.replace(year= n.url.split('/')[2]|int ) %}
 						{% endif %}
 						{% if n.url[1:] in resource.url %}
-						<li> <a href="{{ n.url }}"><b>{{ this_date.strftime('%Y') }} ({{item_count}})</b></a> </li>
-						<ul>
+						<li class="active"> <a href="{{ n.url }}">{{ this_date.strftime('%Y') }} ({{item_count}})</a> </li>
+						<ul class="nav nav-list">
 						{% for n_month in resource.node.child_nodes | sort(attribute='source.name') | reverse %}
 							{% set item_count =  n_month.walk_resources_sorted_by_time() | count %}
 							{% if item_count %}
@@ -125,10 +109,7 @@
 				{% endfor %}
 
 			{% endif %} 
-			
-			
-		</ul>
-	</div>
-</li> 
+</ul>
+</div><!--/.well -->
 
 {% endmacro %}

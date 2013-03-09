@@ -47,12 +47,11 @@
 		<h2 id="page-tagline">All posts from {{ output }}</h2>
 	</hgroup>
 </header>
-<ul class="listing posts clear">
 {% from "post_macros.j2" import render_post with context  %}
 {% for res in resource.node.walk_resources_sorted_by_time() %}
-<li>
+<div class="well">
     {{ render_post(res, class="tags clear") }}
-</li>
+</div>
 {%- endfor %}
 </ul>
 </section>

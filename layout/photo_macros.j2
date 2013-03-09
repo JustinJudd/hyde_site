@@ -41,16 +41,21 @@
 {% endif %}
 {% endmacro %}
 
-{% macro get_albums(n) %}
-{% for n in node.walk() %}	
-	{% if n != node %}
-		{% if  n.parent == node %}
-
-			<li>
-				{{ render_album_excerpt(n) }}
-
-			</li>
+{% macro get_albums(n, class=None) %}
+{% set count = 0 %}
+{% set total_count = node.child_nodes | count %}
+<div class="row-fluid">
+{% for n in node.child_nodes %}	
+		{% if not "tags" in n.url.split('/')[-1] %}
+		{% set count = count +1 %}
+		<div {{'class='~class if class }}>
+			{{ render_album_excerpt(n) }}
+		</div>
 		{% endif %}
+	{% if count % 2 == 0 and count != total_count %}
+	</div>
+	<div class="row-fluid">
 	{% endif %}
 {% endfor %}
+</div>
 {% endmacro %}

@@ -45,7 +45,7 @@
 {% set count = 0 %}
 {% set total_count = node.child_nodes | count %}
 <div class="row-fluid">
-{% for n in node.child_nodes | reverse %}	
+{% for n in node.child_nodes | sort(attribute='meta.created') | reverse %}	
 		{% if not "tags" in n.url.split('/')[-1] %}
 		{% set count = count +1 %}
 		<div {{'class='~class if class }}>

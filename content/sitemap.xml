@@ -1,0 +1,4 @@
+---
+extends: sitemap.j2
+listable: false
+---

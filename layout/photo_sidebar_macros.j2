@@ -45,7 +45,7 @@
 	<ul class="nav nav-list">
 	  <li class="nav-header"><a href="/photos">Albums</a></li>
 		{% set photo_node = site.content.node_from_relative_path('photos/') %}
-			{% for n in site.content.node_from_relative_path('photos/').child_nodes[:num] %}
+			{% for n in site.content.node_from_relative_path('photos/').child_nodes[:num] | reverse %}
 				{% if 'tag' not in n.url %}
 				<li>
 					{% set rel_image_loc = '/' + site.config.media_url[1:] + n.url + '/' +  n.meta.album_cover + '_web.jpg' %}

@@ -4,6 +4,7 @@ title: Project Listing
 description: Project Listing
 ---
 {% block contents %}
+<div>
   <h1>Available Projects</h1>
     <ul>
       <p py:for="project in projects" py:choose="">
@@ -16,4 +17,5 @@ description: Project Listing
 	</py:otherwise>
       </p>
     </ul>
+</div>
 {% endblock contents %}

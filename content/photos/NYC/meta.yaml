@@ -1,7 +1,0 @@
-extends: photo.j2
-default_block: post
-listable: true
-album_cover: nyc_skyline
-title: NYC Photos
-description: >
-    Photos of our trip to NYC

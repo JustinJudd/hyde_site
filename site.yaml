@@ -42,7 +42,7 @@ context:
                 description: Projects
                 css_class: Projects
                 type: node
-                url: /projects
+                url: /projects.html
             -
                 name: About
                 description: About

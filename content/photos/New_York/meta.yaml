@@ -1,0 +1,7 @@
+extends: photo.j2
+default_block: post
+listable: true
+album_cover: NYC_from_at_Night
+title: New York
+description: >
+    Photos from our trip to NYC in Oct. 2012.

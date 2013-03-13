@@ -1,0 +1,7 @@
+extends: photo.j2
+default_block: post
+listable: true
+album_cover: Tesla_Model_X
+title: Tesla
+description: >
+    We went to the Grand Opening of the Tesla Store in New Jersey, where they displayed the Model X prototype.

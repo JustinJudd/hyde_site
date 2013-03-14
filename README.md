@@ -9,7 +9,7 @@ I am using the following projects.
 
 Features that I have added:
 * Photo Gallery
-* Album Creator in scripts
+* Album Creator in scriptsi(uses wx for gui)
 * Blog Archive
 * Sitemap generator
 * Piwik Site Analytics

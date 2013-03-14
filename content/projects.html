@@ -6,16 +6,16 @@ description: Project Listing
 {% block contents %}
 <div>
   <h1>Available Projects</h1>
-    <ul>
-      <p py:for="project in projects" py:choose="">
+    <ul class="unstyled" >
+      <li py:for="project in projects" py:choose="">
 	
-	<a py:when="project.href" href="$project.href"
-	   title="$project.description"><img src="$project.href/chrome/$project.env.project_icon" height="25" /> $project.name </a>
-	<p>&nbsp;&nbsp;&nbsp;$project.description</p>
-	<py:otherwise>
-	  <!--<small>$project.name: <em>Error</em> <br /> ($project.description)</small>-->
-	</py:otherwise>
-      </p>
+		<a py:when="project.href" href="$project.href"
+		   title="$project.description"><img src="$project.href/chrome/$project.env.project_icon" height="25" /> $project.name </a>
+		<p>&nbsp;&nbsp;&nbsp;$project.description</p>
+		<py:otherwise>
+		  <!--<small>$project.name: <em>Error</em> <br /> ($project.description)</small> -->
+		</py:otherwise>
+      </li>
     </ul>
 </div>
 {% endblock contents %}

@@ -87,6 +87,9 @@
     <script src="{{ media_url('js/libs/jquery-1.9.1.min.js') }}"></script>
     <script src="{{ media_url('js/bootstrap.min.js') }}"></script>
 
+	{% block analytics %}
+	{% include "analytics.j2" %}
+	{% endblock analytics %}
 
   </body>
 </html>

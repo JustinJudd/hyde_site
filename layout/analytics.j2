@@ -2,7 +2,7 @@
 <!-- asynchronous google analytics: mathiasbynens.be/notes/async-analytics-snippet
        change the UA-XXXXX-X to be your site's ID -->
 <script>
-    var _gaq = [['_setAccount', '{{ resource.meta.analytics.id }}'], ['_trackPageview']];
+    var _gaq = [['_setAccount', '{{ resource.meta.analytics.google.id }}'], ['_trackPageview']];
     (function(d, t) {
     var g = d.createElement(t),
         s = d.getElementsByTagName(t)[0];
@@ -11,4 +11,19 @@
     s.parentNode.insertBefore(g, s);
     })(document, 'script');
 </script>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(["trackPageView"]);
+  _paq.push(["enableLinkTracking"]);
+
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://{{ resource.meta.analytics.piwik.site }}";
+    _paq.push(["setTrackerUrl", u+"piwik.php"]);
+    _paq.push(["setSiteId", "{{ resource.meta.analytics.piwik.site }}"]);
+    var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+    g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Piwik Code -->
 {% endif %}

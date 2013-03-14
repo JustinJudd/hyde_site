@@ -56,6 +56,12 @@ meta:
     site_title: Justin Judd
     site_description: "Engineer, Developer, and Open Source Enthusiast"
     site_url: 'http://www.justinjudd.org'
+    analytics:
+        google:
+            id: UA-37580826-1
+        piwik:
+            id: 1
+            site: justinjudd.org/analytics/
 sorter:
     time:
         attr:

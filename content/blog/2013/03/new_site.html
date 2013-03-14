@@ -1,0 +1,55 @@
+---
+title: New Site
+description: >
+    Description of my new site
+created: !!timestamp '2013-03-13 21:00:00'
+tags:
+    - Site
+---
+
+{% mark excerpt -%}
+It has been awhile since I have updated the site with a post
+for my blog, but you may have noticed that a lot has changed.
+I have put a lot of effort into a complete site redesign and I have also 
+moved my site away from dynamic pieces
+(I was using [b2evo][b2evo] for my blog and [gallery3][gallery3] for my photo gallery), to a
+static site. For anyone interested, I will outline how I replaced those
+tools.
+
+[b2evo]: http://b2evolution.net/
+[gallery3]: http://codex.galleryproject.org/Gallery3    
+{%- endmark %}
+
+One of the conditions I had when creating my new static site, was that I could seperate the
+content from the layout, and keep my blog posts in a simple text format. Keeping 
+it in an easy to read format makes it perfect for using with version control, and 
+I can use different branches for drafts.
+
+I looked at a number of different static site generators, but they all seemed heavily focused on 
+just blog sites, and are not designed for full sites with multiple sections.
+I also wanted a static site generator written in a language I am familiar with, so that 
+ruled out [jekyll][jekyll], which seems to be the most popular static site generator, but it is written in Ruby.
+
+I looked at a number of other static site generators, and even flirted with the idea of creating my own, but eventually settled on [hyde][hyde].
+Some of the other static site generators I tried out are [strangecase][strangecase] and [pelican][pelican].
+
+Hyde is pretty capable, but doesn't seem to be under active development. Despite that, their templating language is very capable, and I was able to implement my photo gallery with it.
+
+
+Once I had the site generator set up, I realized this was a perfect opportunity to redesign my site. After one redesign, I wasn't content with how it displayed on mobile devices, so I looked into [bootstrap][bootstrap] which makes it easy to create responsive sites. Once I updated my layouts to make it bootstrap friendly, I used [bootswatch][bootswatch] for theming inspirations.
+
+I have made my site layout with the current content available publicly on [github][Github_repo], so feel free to fork it and use it 
+for your own site.
+
+Thanks for reading my blog and checking out my site. If you notice anything wrong or have any recommendations, please let me know.
+
+
+
+[Github_repo]: https://github.com/JustinJudd/hyde_site
+[jekyll]: https://github.com/mojombo/jekyll
+[hyde]: http://hyde.github.com/
+[bootstrap]: http://twitter.github.com/bootstrap/
+[strangecase]: https://github.com/colinta/StrangeCase
+[pelican]: http://docs.getpelican.com/en/3.1.1/ 
+[bootswatch]: http://bootswatch.com/
+
